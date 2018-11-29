@@ -1,0 +1,174 @@
+
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+
+  <h1 class="w3-center">Mobilna stacja WIOS vs Airly</h1>
+
+<p>W dniach 23 lutego - 9 marca 2018 w Jaworznie przy szkole podstawowej przy ul. Matejki funkcjonowała mobilna stacja pomiarowa WIOŚ.</p>
+<p>Jak sie mają jej odczyty do pomiarów Airly z oddalonego o 300m Placu Górników oraz z Rynku oddalonego o 500m?</p>
+<br>
+<canvas id="ambulance" width="400" height="250"></canvas>
+
+
+<script>
+
+
+var ctx = document.getElementById("ambulance").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ["23.02", "24.02", "25.02", "26.02", "27.02", "28.02", "1.03", "2.03", "3.03", "4.03", "5.03", "6.03", "7.03", "8.03", "9.03"],
+        datasets: [
+          {
+            label: 'WIOŚ (ul. Matejki) - 92,7 [ug/m3]',
+            data: [66.009, 58.483, 46.53, 71.029, 43.820, 46.13, 96.36, 90.608, 111.18, 134.38, 192.13, 182.25, 117.50, 80.066, 54.291],
+            backgroundColor: [
+                // 'rgba(255, 99, 132, 0.2)'
+                // 'rgba(54, 162, 235, 0.2)'
+                // 'rgba(255, 206, 86, 0.2)',
+                // 'rgba(75, 192, 192, 0.2)'
+                'rgba(153, 102, 255, 0.2)'
+                // 'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                // 'rgba(255,99,132,1)'
+                // 'rgba(54, 162, 235, 1)',
+                // 'rgba(255, 206, 86, 1)'
+                // 'rgba(75, 192, 192, 1)'
+                'rgba(153, 102, 255, 1)'
+                // 'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1,
+            fill: false
+        },
+        {
+          label: 'Airly (Rynek) - 91,2 [ug/m3]',
+          data: [74, 69, 69, 77, 47, 55, 92, 84, 101, 122, 174, 170, 117, 67, 50],
+          backgroundColor: [
+              // 'rgba(255, 99, 132, 0.2)'
+              // 'rgba(54, 162, 235, 0.2)',
+              // 'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)'
+              // 'rgba(153, 102, 255, 0.2)',
+              // 'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+              // 'rgba(255,99,132,1)'
+              // 'rgba(54, 162, 235, 1)',
+              // 'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)'
+              // 'rgba(153, 102, 255, 1)',
+              // 'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1,
+          fill: false
+      },
+      {
+        label: 'Airly (Plac Górników) - 81,1 [ug/m3]',
+        data: [61, 56, 51, 85, 45, 48, 78, 76, 86, 111, 162, 147, 103, 61, 46],
+        backgroundColor: [
+            // 'rgba(255, 99, 132, 0.2)'
+            // 'rgba(54, 162, 235, 0.2)'
+            // 'rgba(255, 206, 86, 0.2)',
+            // 'rgba(75, 192, 192, 0.2)',
+            // 'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+            // 'rgba(255,99,132,1)'
+            // 'rgba(54, 162, 235, 1)',
+            // 'rgba(255, 206, 86, 1)'
+            // 'rgba(75, 192, 192, 1)',
+            // 'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1,
+        fill: false
+    },
+    // {
+    //   label: 'Skawina',
+    //   data: [44, 49, 46, 50, 38, 47, 64, 41, 90, 84, 37, null, null, 95, 112],
+    //   backgroundColor: [
+    //       // 'rgba(255, 99, 132, 0.2)'
+    //       // 'rgba(54, 162, 235, 0.2)'
+    //       // 'rgba(255, 206, 86, 0.2)',
+    //       'rgba(75, 192, 192, 0.2)',
+    //       // 'rgba(153, 102, 255, 0.2)',
+    //       // 'rgba(255, 159, 64, 0.2)'
+    //   ],
+    //   borderColor: [
+    //       // 'rgba(255,99,132,1)'
+    //       // 'rgba(54, 162, 235, 1)'
+    //       // 'rgba(255, 206, 86, 1)',
+    //       'rgba(75, 192, 192, 1)',
+    //       // 'rgba(153, 102, 255, 1)',
+    //       // 'rgba(255, 159, 64, 1)'
+    //   ],
+    //   borderWidth: 1,
+    //   fill: false
+    // },
+      {
+        label: 'Wart. dopuszczalna',
+        data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)'
+            // 'rgba(54, 162, 235, 0.2)'
+            // 'rgba(255, 206, 86, 0.2)',
+            // 'rgba(75, 192, 192, 0.2)',
+            // 'rgba(153, 102, 255, 0.2)',
+            // 'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+            'rgba(255,99,132,1)'
+            // 'rgba(54, 162, 235, 1)'
+            // 'rgba(255, 206, 86, 1)',
+            // 'rgba(75, 192, 192, 1)',
+            // 'rgba(153, 102, 255, 1)',
+            // 'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 0.1,
+        fill: true,
+        pointRadius: 0
+        }
+      ]
+    },
+
+    options: {
+        scales: {
+            yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'ug/m3'
+                },
+                ticks: {
+                    beginAtZero:true
+                },
+
+            }],
+            xAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: 'Dzień'
+              },
+            }
+            ],
+        },
+        legend: {
+          display: true,
+          position:'top'
+        }
+    }
+
+});
+// });
+
+
+</script>
+
+
+</div>
+
+
+
+</div>

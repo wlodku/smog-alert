@@ -1,0 +1,35 @@
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+  <h2>Zaloguj się</h2>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+  <% flash.each do |name, msg| %>
+    <%= content_tag :div, msg, id: "flash_#{name}" %>
+  <% end %>
+
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'w3-input w3-border' %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password %><br />
+      <%= f.password_field :password, autocomplete: "off", class: 'w3-input w3-border' %>
+    </div>
+<br>
+    <% if devise_mapping.rememberable? -%>
+      <div class="field w3-right">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me %>
+      </div>
+    <% end -%>
+<br>
+    <div class="actions">
+      <%= f.submit "Zaloguj", class: 'w3-btn w3-green' %>
+    </div>
+  <% end %>
+<br>
+  <%= render "devise/shared/links" %>
+  </div>
+</div>

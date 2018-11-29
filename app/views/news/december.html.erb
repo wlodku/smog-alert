@@ -1,0 +1,33 @@
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+
+  <h1>Grudzień 2017 - odczyty Miejskiej Biblioteki Publicznej</h1>
+
+<h3>Średniodobowe stężenia PM10</h3>
+<canvas id="pm10_november" width="400" height="200"></canvas>
+<h3>Ilość dni z przekroczoną normą dobową: <span id="countDays10"></span></h3>
+
+
+<br>
+<hr>
+<h3>Średniodobowe stężenia PM2.5</h3>
+<canvas id="pm25_november" width="400" height="200"></canvas>
+<h3>Ilość dni z przekroczoną normą dobową: <span id="countDays25"></span></h3>
+<script>
+// $(document).on('turbolinks:load', function() {
+
+  let data2 = [69.22135922, 123.3568421, 79.41157895, 41.26, 36.43789474, 36.01473684, 31.19894737, 41.88986784, 40.32421053, 19.06382979, 14.65043478, 10.16842105, 43.56, 17.88210526, 36.26421053, 112.3936842, 96.67263158, 123.0442105, 82.94526316, 77.9645933, 49.48996416, 33.81798561, 25.94265233, 19.11827957, 32.53154122, 61.26330935, 61.80869565, 27.93473684, 48.4020202, 52.73473684, 24.52666667];
+  pm25_report("pm25_november", 30, data2);
+  document.getElementById("countDays25").innerHTML = data2.filter(x=> x > 25).length ;
+
+  let data = [78.51456311, 143.6421053, 90.47368421, 44.88421053, 39.43157895, 38.87368421, 33.56842105, 45.23348018, 43.76842105, 20.21276596, 15.50434783, 10.61052632, 48.29473684, 18.97894737, 39.53684211, 130.4315789, 111.0736842, 143.4210526, 94.52631579, 87.8277512, 54.16845878, 36.31654676, 27.58422939, 20.18996416, 36.38351254, 68.21582734, 69.07608696, 30.09473684, 53.66666667, 58.17894737, 26.02222222];
+  pm10_report("pm10_november", 30, data);
+  document.getElementById("countDays10").innerHTML = data.filter(x=> x > 50).length ;
+
+// });
+
+</script>
+
+
+</div>
+</div>

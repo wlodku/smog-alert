@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Uwaga na smog</title>
+  <style>
+    .dot {
+      border-radius: 50%;
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      vertical-align: middle;
+    }
+    .w1 {
+      background-color: #8900a1;
+    }
+    .w2 {
+      background-color: #ee2b29;
+    }
+    .w3 {
+      background-color: #fd8509;
+    }
+    .w4 {
+      background-color: #fee92e;
+    }
+    .w5 {
+      background-color: #3fa43f;
+    }
+    .w6 {
+      background-color: #1e80f0;
+    }
+
+  </style>
+</head>
+<body>
+  <h2>Uwaga na jakość powietrza!</h2>
+    <p>Jakość powietrza w wybranych przez Ciebie stacjach jest następująca:</p>
+
+    	<% @om.each do |m| %>
+    		<div class="dot <%= getMailColor(m.pm10, m.pm25) %>"></div>&nbsp;<%= m.installation.name %> - PM10: <%= (m.pm10*100)/50 %>%, PM2.5: <%= (m.pm25*100)/25 %>% - <%= getMailMark(m.pm10, m.pm25) %><br>
+    	<% end %>
+
+    <p>Nie otrzymasz podobnej wiadomości przez kolejne <%= @delay %>h - monitoruj jakość powietrza na stronie <a href="http://www.jaworznobezsmogu.pl">http://www.jaworznobezsmogu.pl</a></p>
+    <br>
+    <hr>
+    <p>Aby zmienić ustawienia lub wyłączyć powiadomienia - <a href="http://www.jaworznobezsmogu.pl">zaloguj się</a> i przejdź do opcji Systemu Ostrzegania.</p>
+</body>
+</html>

@@ -1,0 +1,598 @@
+<% content_for :title, " - Powietrze w Jaworznie, styczeń 2018" %>
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+
+    <h1>Powietrze w Jaworznie - styczeń 2018</h1>
+  <br>
+    <div class="w3-center imago">
+    <%= image_tag "jelen.jpg" %>
+    </div>
+    <br>
+    <h2>1. Źródła danych</h2>
+
+    <p>Źródłem analizy są odczyty 20 czujników firmy Airly zakupionych przez Miasto Jaworzno. Co 10 minut łączymy się z API urządzeń i odczytujemy bieżące pomiary zanieczyszczeń. Dodatkowo począwszy od 1 stycznia 2018 raz dziennie kilka minut po północy pobieramy z serwera Airly 24 średnie godzinowe z ostatniej doby i <b>zapisujemy do bazy danych średnią dobową dla każdego z 20 urządzeń.</b></p>
+
+    <p>Jaworznickie czujniki dokonują laserowego pomiaru cząstek stałych PM10 oraz PM 2.5. Nie są mierzone wartości benzo(a)pirenów, SOx oraz NOx.</p>
+
+    <p>Kwestię tego czy odczyty urządzeń firmy Airly są wiarygodne omówimy w osobnym artykule. Póki co napiszmy, że ich największą zaletą w naszym mieście jest ich ilość. Dzięki temu możemy badań <b>zróżnicowanie przestrzenne</b> zanieczyszczeń w Jaworznie.</p>
+    <br>
+    <h2>2. Pomiary dla całego Jaworzna (uśrednienie z 20 stacji) za styczeń 2018</h2>
+    <br>
+    <div class="w3-container w3-center">
+
+    <table class="w3-table w3-bordered w3-card-4">
+      <tr>
+        <td><b>PM10</b></td>
+        <td>
+          <!-- <% (@stats_jaworzno_january.map { |x| x["pm10"].to_f }.reduce(:+) / @stats_jaworzno_january.size).round(2) %>  -->
+          68,94 µg/m3
+
+        </td>
+      </tr>
+      <tr>
+        <td><b>PM2.5</b></td>
+        <td>
+          <!-- <% (@stats_jaworzno_january.map { |x| x["pm25"].to_f }.reduce(:+) / @stats_jaworzno_january.size).round(2) %>  -->
+          44,39 µg/m3
+        </td>
+      </tr>
+    </table>
+
+    </div>
+
+    <br><br>
+    <p>Pogoda w Polsce z punktu widzenia jakości powietrza była dla nas w ubiegłym miesiącu wyjątkowo łaskawa. Najpierw zimy nie było, a kiedy w końcu przyszła, była przedziwna - fronty zokludowane, ośrodki głębokich niżów zwanych czasem "orkanami", a nawet burze (sic!) sprawiły, że wiało często i mocno. W rezultacie przez pierwszą część miesiąca <b>cieszyliśmy się stosunkowo dobrym powietrzem</b></p>
+    <p>I tak - dwa dni były dobre, później trzy złe, trzy dni dobre, dwa złe itp. Epizody smogowe trwały krótko, zaczynały się najczęściej w godzinach popołudniowych i kończyły przed świtem kolejnego dnia.</p>
+    <p>Aż w końcu nadszedł <b>ostatni weekend stycznia</b>. Sytuacja była na tyle dramatyczna, że poświęcimy jej osobną część niniejszego raportu.</p>
+
+
+    <h3 class="w3-center">Średniodobowe stężenia PM10</h3>
+    <canvas id="pm10_january" width="400" height="200"></canvas>
+    <h4>Ilość dni z przekroczoną normą dobową:
+      <span id="countDays10"></span>
+    </h4>
+    <br>
+    <p>Według WHO ilość dni w roku z przekroczoną normą PM10 <b>nie powinna przekraczać 35</b>, dlatego 19 dni z przekroczoną normą w jednym miesiącu to zła wiadomość. Jeszcze gorzej było biorąc pod uwagę groźniejszy dla zdrowia drobniejszy pył PM2.5:</p>
+    <hr>
+    <h3 class="w3-center">Średniodobowe stężenia PM2.5</h3>
+    <canvas id="pm25_january" width="400" height="200"></canvas>
+    <h4>Ilość dni z przekroczoną normą dobową:
+      <span id="countDays25"></span>
+    </h4>
+
+    <br><br>
+
+    <p>Z punktu widzenia mieszkańcow Jaworzna, analiza wygląda dużo ciekawiej z rozbiciem na poszczególne dzielnice. <b>Gdzie oddychało się najgorzej, a gdzie stosunkowo najlepiej?</b></p>
+    <br><br>
+    <h2>3. Pomiary dla poszczególnych dzielnic</h2>
+    <br>
+    <h3 class="w3-center">Średnie miesięczne stężenia PM10 dla poszczególnych czujników</h3>
+
+    <canvas id="districts" width="400" height="250"></canvas>
+
+    <br>
+    <p>Niestety powietrze <b>we wszystkich monitorowanych w Jaworznie miejscach było gorsze</b> niż normy UE oraz WHO.</p>
+
+    <p>W zestawieniu pominęliśmy dwa urządzenia - <b>Dąbrowa Narodowa</b> oraz <b>Jeleń Wygoda</b>, mimo iż oba pierwotnie znalazły się w pierwszej piątce najgorszych miejsc. Miernik na Dąbrowie był nieczynny przez większość miesiąca i obudził się akurat na atak smogu z 26 stycznia, dlatego średnia miesięczna mogła być zawyżona. Z kolei urządzenie z ul. Banasika przed poważnym incydentem smogowym przestało dokonywać pomiarów, dlatego w tym przypadku średnia mogła być zaniżona. Wykresy obu czujników przedstawiamy poniżej w wykresie skumulowanym.</p>
+
+    <p>Niespodzianki nie było, w Jaworznie najbardziej zanieczyszczone są dzielnice domów jednorodzinnych położonych w obniżeniach terenu - <b>Jeleń, Byczyna, Bory oraz Długoszyn</b>. To od tych miejsc należy zacząć intensywną walkę z niską emisją.</p>
+
+    <p>Przeanalizujmy przypadki "pozytywne" z dołu zestawienia:</p>
+    <ul>
+      <li>
+        <b>Osiedle Stałe Basen</b> To niewątpliwie dobra wiadomość dla osób korzystających z usług pobliskiego centrum sportowego. Zwracamy jednak uwagę, że mieszkańcy Osiedla Stałego nie powinni sugerować się wyłącznie odczytem z tego źródła. Okolica basenu otoczona jest lasem, a mieszkańcy ul. Kalinowej bardziej powinni zerkać na odczyty miernika na Dąbrowie Narodowej.
+      </li>
+      <li>
+        <b>Plac Górników</b> Chyba największe pozytywne zaskoczenie tego zestawienia. Miejsce sąsiadujące z bardzo ruchliwą (póki co) ulicą okazało się lepszym miejscem do oddychania od położonego na wzniesieniu (!) pobliskiego <b>Rynku Głównego</b> z którego wyłączono ruch samochodowy, ale który jest otoczony starymi budynkami jednorodzinnymi. To kolejny dowód na to, że w mieście takim jak Jaworzno <b>źródeł smogu powinniśmy szukać nie na ulicach, lecz w kotłowniach</b>.
+      </li>
+      <li>
+        <b>Pieczyska</b> Pozytywna informacja dla odwiedzających Park Gródek. Niestety, jednorodzinna zabudowa Pieczysk znajduje się poniżej szkoły w której dokonywane sa pomiary, dlatego mieszkańcy z pewnością oddychają nieco gorszym powietrzem.
+      </li>
+    </ul>
+
+    <p>Przeanalizujmy jeszcze szczegółową tabelę danych. <b>Nagłówek tabeli jest klikalny</b> - można ją sortować po wybranych wartościach rosnąco / malejąco. </p>
+    <br>
+    <h3 class="w3-center">Średnie miesięczna pyłów dla poszczególnych czujników - szczegóły</h3>
+    <br>
+    <table class="sortable w3-table w3-striped w3-card-4 w3-row">
+      <tr class="w3-center hand">
+        <th>Lokalizacja</th>
+        <th>PM10</th>
+        <th>PM2.5</th>
+        <th>Ile dni z przekroczoną normą dobową PM10</th>
+      </tr>
+      <tr>
+        <td>Jeleń Kościół</td>
+        <td >104.14</td>
+        <td >62.45</td>
+        <td >23</td>
+      </tr>
+      <tr>
+        <td>Byczyna</td>
+        <td>85.23</td>
+        <td>56.73</td>
+        <td>21</td>
+      </tr>
+      <tr>
+        <td>Bory</td>
+        <td>78.38</td>
+        <td>47.06</td>
+        <td>24</td>
+      </tr>
+      <tr>
+        <td>Długoszyn</td>
+        <td>77.7</td>
+        <td>48.67</td>
+        <td>19</td>
+      </tr>
+      <tr>
+        <td>Stadion Azotania</td>
+        <td>73.41</td>
+        <td>45.69</td>
+        <td>20</td>
+      </tr>
+      <tr>
+        <td>Szczakowa</td>
+        <td>72.55</td>
+        <td>49.4</td>
+        <td>20</td>
+      </tr>
+      <tr>
+        <td>Stara Huta</td>
+        <td>71.24</td>
+        <td>46.6</td>
+        <td>20</td>
+      </tr>
+      <tr>
+        <td>Elektrownia Zespół Szkół</td>
+        <td>70.53</td>
+        <td>41.02</td>
+        <td>17</td>
+      </tr>
+      <tr>
+        <td>Osiedle Azot</td>
+        <td>66.51</td>
+        <td>45.34</td>
+        <td>19</td>
+      </tr>
+      <tr>
+        <td>Rynek</td>
+        <td>64.97</td>
+        <td>41.9</td>
+        <td>19</td>
+      </tr>
+      <tr>
+        <td>Jeziorki</td>
+        <td>63.24</td>
+        <td>41.54</td>
+        <td>19</td>
+      </tr>
+      <tr>
+        <td>Podłęże Ławczana</td>
+        <td>63.07</td>
+        <td>39.83</td>
+        <td>19</td>
+      </tr>
+      <tr>
+        <td>Podwale</td>
+        <td>58.74</td>
+        <td>39.04</td>
+        <td>17</td>
+      </tr>
+      <tr>
+        <td>Ciężkowice</td>
+        <td>58.36</td>
+        <td>39.28</td>
+        <td>18</td>
+      </tr>
+      <tr>
+        <td>Sulińskiego Górka</td>
+        <td>57.18</td>
+        <td>37.53</td>
+        <td>16</td>
+      </tr>
+      <tr>
+        <td>Pieczyska</td>
+        <td>55.32</td>
+        <td>36.3</td>
+        <td>16</td>
+      </tr>
+      <tr>
+        <td>Plac Górników</td>
+        <td>55.22</td>
+        <td>37.27</td>
+        <td>16</td>
+      </tr>
+      <tr>
+        <td>Osiedle Stałe Basen</td>
+        <td>50.8</td>
+        <td>34.12</td>
+        <td>16</td>
+      </tr>
+    </table>
+
+<br>
+<p>Posortujmy tabelę malejąco po ilości dni z przekroczoną normą dobową pyłu PM10 (50 ug/m3). <b>Znajdziemy w ten sposób złą informację dla mieszkańców Borów</b>. Co prawda chwilowe odczyty są mniejsze niż te w Jeleniu (co przekłada się na średnią miesięczną), ale to mieszkańcy Borów najdłużej oddychali skażonym powietrzem. Tam smog występuje mniej intensywnie, ale bardziej regularnie. </p>
+
+<p>W zestawieniu pominęliśmy ilość dni z przekroczoną normą dobową pyłu PM2.5 (25 ug/m3). We wszystkich stacjach liczba ta niestety przekraczała 20 dni, a różnice pomiędzy dzielnicami były niewielkie.</p>
+
+<p>Na koniec wszystkie stacje na jednym wykresie liniowym. Wydaje się być nieczytelnym, ale <b>legenda jest klikalna - można pokazywać i ukrywać poszczególne serie danych</b>. Kolory dobierane są losowo - <b>w celu dobrania nowych kolorów prosimy odświeżyć stronę.</b> </p>
+<h3 class="w3-center">Stężenia pyłów PM10 w poszczególnych dzielnicach - styczeń 2018</h3>
+
+<canvas id="station_chart" width="410" height="220"></canvas>
+
+<br><br>
+<h2>4. Smog 25-27 stycznia 2018</h2>
+<br>
+<p>Pod koniec miesiąca mieliśmy do czynienia ze smutnym zdarzeniem - <b>największy smog w tym sezonie grzewczym</b>. Zaczął się on już w czwartek wieczorem i trwał na terenie całego miasta nieprzerwanie do niedzielnego świtu. Niestety ostrzeżenie nie dotarło do wszystkich mieszkańców, a niektórzy świadomie je zbagatelizowali.</p>
+<p>Zobaczmy jak wyglądał on w liczbach dla poszczególnych dzielnic <b>(nagłówek tabeli jest klikalny)</b>:</p>
+
+
+<table class="sortable w3-table w3-striped w3-card-4 w3-row">
+
+<tbody>
+<tr class="w3-center hand">
+<td></td>
+<td><b>PM10 - 26.01 (piątek)</b></td>
+<td><b>PM2.5 - 26.01 (piątek)</b></td>
+<td><b>PM10 - 27.01 (sobota)</b></td>
+<td><b>PM2.5 - 27.01 (sobota)</b></td>
+</tr>
+<tr>
+<td>Jeleń Kości&oacute;ł</td>
+<td>276,63</td>
+<td>161,73</td>
+<td>304,00</td>
+<td>174,09</td>
+</tr>
+<tr>
+<td>Elektrownia Zesp&oacute;ł Szk&oacute;ł</td>
+<td>229,65</td>
+<td>132,79</td>
+<td>235,46</td>
+<td>131,79</td>
+</tr>
+<tr>
+<td>Bory</td>
+<td>172,78</td>
+<td>102,51</td>
+<td>219,20</td>
+<td>126,50</td>
+</tr>
+<tr>
+<td>Byczyna</td>
+<td>231,62</td>
+<td>152,31</td>
+<td>214,72</td>
+<td>140,99</td>
+</tr>
+<tr>
+<td>Długoszyn</td>
+<td>181,67</td>
+<td>113,89</td>
+<td>210,66</td>
+<td>127,84</td>
+</tr>
+<tr>
+<td>Stara Huta</td>
+<td>166,65</td>
+<td>109,56</td>
+<td>196,73</td>
+<td>126,04</td>
+</tr>
+<tr>
+<td>Stadion Azotania</td>
+<td>216,40</td>
+<td>131,92</td>
+<td>195,46</td>
+<td>118,10</td>
+</tr>
+<tr>
+<td>Sulińskiego G&oacute;rka</td>
+<td>123,58</td>
+<td>82,79</td>
+<td>192,39</td>
+<td>124,21</td>
+</tr>
+<tr>
+<td>Szczakowa</td>
+<td>179,18</td>
+<td>124,61</td>
+<td>185,96</td>
+<td>127,05</td>
+</tr>
+<tr>
+<td>Osiedle Azot</td>
+<td>156,43</td>
+<td>109,35</td>
+<td>185,42</td>
+<td>126,82</td>
+</tr>
+<tr>
+<td>Podłęże Ławczana</td>
+<td>147,46</td>
+<td>93,92</td>
+<td>185,21</td>
+<td>114,39</td>
+</tr>
+<tr>
+<td>Dąbrowa Narodowa</td>
+<td>166,62</td>
+<td>111,71</td>
+<td>182,00</td>
+<td>119,28</td>
+</tr>
+<tr>
+<td>Rynek</td>
+<td>130,22</td>
+<td>85,90</td>
+<td>175,52</td>
+<td>111,46</td>
+</tr>
+<tr>
+<td>Jeziorki</td>
+<td>148,15</td>
+<td>99,04</td>
+<td>164,30</td>
+<td>107,49</td>
+</tr>
+<tr>
+<td>Podwale</td>
+<td>111,34</td>
+<td>74,57</td>
+<td>156,24</td>
+<td>105,32</td>
+</tr>
+<tr>
+<td>Plac G&oacute;rnik&oacute;w</td>
+<td>111,89</td>
+<td>78,01</td>
+<td>153,59</td>
+<td>105,60</td>
+</tr>
+<tr>
+<td>Pieczyska</td>
+<td>134,51</td>
+<td>90,45</td>
+<td>144,77</td>
+<td>95,41</td>
+</tr>
+<tr>
+<td>Osiedle Stałe Basen</td>
+<td>114,43</td>
+<td>79,79</td>
+<td>138,91</td>
+<td>94,16</td>
+</tr>
+<tr>
+<td>Ciężkowice</td>
+<td>106,28</td>
+<td>72,70</td>
+<td>133,00</td>
+<td>91,00</td>
+</tr>
+</tbody>
+</table>
+<br><br>
+<p>Liczby robią wrażenie. Lokalne Alarmy Smogowe po dniach w których zanieczyszczenie było wyjątkowo duże często informują: "gdyby nasze miasto było Paryżem, to własnie by ogłoszono alarm smogowy". Jest to związane z tym, że we Francji oficjalny administracyjny alarm smogowy ogłaszany jest po tym jak średnie dobowe stężenie pyłu PM10 przekroczy 80 ug/m3, a w Polsce dopiero po przekroczeniu absurdalnie wysokiego poziomu 300 ug/m3. Spoglądając na powyższe zestawienie musielibyśmy powiedzieć inaczej: <b>"gdyby w Jeleniu była stacja WIOŚ, to 27 stycznia w Jaworznie ogłoszono by alarm smogowy".</b></p>
+
+<p class="w3-right"><i>WB</i></p>
+
+      <script>
+      // document.addEventListener("DOMContentLoaded", function(){
+
+        // $(document).on('turbolinks:load', function () {
+
+          var originalLineDraw = Chart.controllers.horizontalBar.prototype.draw;
+          Chart.helpers.extend(Chart.controllers.horizontalBar.prototype, {
+
+              draw: function () {
+                  originalLineDraw.apply(this, arguments);
+
+                  var chart = this.chart;
+                  var ctx = chart.chart.ctx;
+
+                  var index = chart.config.options.lineAtIndex;
+                  if (index) {
+
+                      var xaxis = chart.scales['x-axis-0'];
+                      var yaxis = chart.scales['y-axis-0'];
+
+                      var x1 = xaxis.getPixelForValue(index);
+                      var y1 = yaxis.top;
+
+                      var x2 = xaxis.getPixelForValue(index);
+                      var y2 = yaxis.bottom;
+
+                      ctx.save();
+                      ctx.beginPath();
+                      ctx.moveTo(x1, y1);
+                      ctx.strokeStyle = 'red';
+                      ctx.lineTo(x2, y2);
+                      ctx.stroke();
+
+                      ctx.restore();
+                  }
+              }
+          });
+
+          let data = [
+            66.11,
+            83.89,
+            38.74,
+            28.74,
+            46.53,
+            102.2,
+            61.11,
+            38.33,
+            50.56,
+            97.38,
+            98.66,
+            44.53,
+            35.22,
+            43.98,
+            81.32,
+            81.52,
+            40.70,
+            32.00,
+            44.44,
+            94.35,
+            75.02,
+            59.73,
+            90.50,
+            90.74,
+            94.03,
+            163.40,
+            188.20,
+            61.85,
+            29.66,
+            15.85,
+            54.16
+          ];
+          pm10_report("pm10_january", 31, data);
+          document.getElementById("countDays10").innerHTML = data.filter(x => x > 50).length;
+
+          let data2 = [
+            42.68,
+            54.45,
+            24.98,
+            18.49,
+            30.54,
+            68.54,
+            40.85,
+            24.88,
+            31.92,
+            63.98,
+            63.64,
+            27.79,
+            22.99,
+            28.12,
+            51.37,
+            51.82,
+            26.06,
+            20.73,
+            29.17,
+            61.16,
+            47.67,
+            36.89,
+            57.76,
+            58.79,
+            60.22,
+            105.6,
+            119.3,
+            38.84,
+            19.90,
+            10.88,
+            34.625
+          ];
+          pm25_report("pm25_january", 31, data2);
+          document.getElementById("countDays25").innerHTML = data2.filter(x => x > 25).length;
+          //
+          // let data = [78.51456311, 143.6421053, 90.47368421, 44.88421053, 39.43157895, 38.87368421, 33.56842105, 45.23348018, 43.76842105, 20.21276596, 15.50434783, 10.61052632, 48.29473684, 18.97894737, 39.53684211, 130.4315789, 111.0736842, 143.4210526,
+          // 94.52631579, 87.8277512, 54.16845878, 36.31654676, 27.58422939, 20.18996416, 36.38351254, 68.21582734, 69.07608696, 30.09473684, 53.66666667, 58.17894737, 26.02222222]; pm10_report("pm10_november", 30, data);
+          // document.getElementById("countDays10").innerHTML = data.filter(x=> x > 50).length ; Chart.defaults.global.legend.display = false;
+          let ctx = document.getElementById("districts").getContext('2d');
+          let data3 = [
+            104.14,
+            85.23,
+            78.38,
+            77.7,
+            73.41,
+            72.55,
+            71.24,
+            70.53,
+            66.51,
+            64.97,
+            63.24,
+            63.07,
+            58.74,
+            58.36,
+            57.18,
+            55.32,
+            55.22,
+            50.8
+          ]
+          let myBarChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+              labels: [
+                "Jeleń Kościół",
+                "Byczyna",
+                "Bory",
+                "Długoszyn",
+                "Stadion Azotania",
+                "Szczakowa",
+                "Stara Huta",
+                "Elektrownia Zespół Szkół",
+                "Osiedle Azot",
+                "Rynek",
+                "Jeziorki",
+                "Podłęże Ławczana",
+                "Podwale",
+                "Ciężkowice",
+                "Sulińskiego Górka",
+                "Pieczyska",
+                "Plac Górników",
+                "Osiedle Stałe Basen"
+              ],
+              datasets: [
+                {
+                  label: 'PM10 [ug/m3]',
+                  backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                  data: data3
+                }
+                // , {
+                //   type: 'line',
+                //   label: 'Wartość dopuszczalna - 40 [ug/m3]',
+                //   backgroundColor: 'rgba(255, 99, 132, 0)',
+                //   borderColor: 'rgba(255, 0, 0, 1)',
+                //   borderWidth: 1,
+                //
+                // }
+              ]
+            },
+            options: {
+              // lineAtIndex: 50,
+              scales: {
+                xAxes: [
+                  {
+                    position: 'top',
+                    ticks: {
+                      beginAtZero: true
+                    }
+                  }
+                ],
+                yAxes: [
+                  {
+                    ticks: {
+                      fontSize: 14
+                    }
+                  }
+                ]
+              }
+            }
+          });
+
+          // });
+        // });
+
+        var nil = null
+
+        monthly_chart(
+        "station_chart", [...Array.from(new Array(31), (x,i) => i+1)],
+        <% @stats_jaworzno_january.group_by{|stat| stat.station_id }.each do |station, s| %>
+        <% avg = Array.new(31, nil) %>
+        <% (0..30).each do |i| %>
+          <% s.each do |s| %>
+            <% avg[i] = s["pm10"].to_f if s["day"].day == i+1 %>
+          <% end %>
+        <% end %>
+        "<%= Station.find(station).name %>", <%= avg %>,
+        <% end %>
+        )
+
+
+      </script>
+
+    </div>
+  </div>

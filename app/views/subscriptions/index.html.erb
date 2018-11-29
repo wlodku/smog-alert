@@ -1,0 +1,38 @@
+<div class="w3-row-padding w3-padding-64 w3-container">
+	<div class="w3-content">
+
+		<p><b><%= notice %></b></p>
+		<p><b><%= alert %></b></p>
+
+<h1>System ostrzegania - ustawienia</h1>
+
+<h3>Obserwowane stacje</h3>
+<p>Wybierz czujniki z których chcesz otrzymywać powiadomienia</p>
+<%= form_for @user, url: {action: "update"} do |f| %>
+	<%= hidden_field_tag "user[installation_ids][]", nil%>
+    <% @installations.each do |i| %>
+        <%= check_box_tag 'user[installation_ids][]', i.id, @user.installations.include?(i), class: 'w3-check' %>
+        <%= i.name %>
+        <br>
+    <% end %>
+		<br>
+		<h3>Wyłącz/włącz powiadomienia email</h3>
+		<label class="switch">
+	  <!-- <input type="checkbox"> -->
+		<%= f.check_box :is_active %>
+	  <span class="slider round"></span>
+		</label>
+
+		<br><br>
+		<h3>Próg <informowania></informowania></h3>
+		<p>Otrzymasz powiadomienie, jeśli na którejś z obserwowanych stacji powietrze będzie co najmniej tak złe jak wybrana wartość progowa.</p>
+		<%= f.select :critical, options_for_select([['Bardzo źle', 1],['Źle', 2],['Niekorzystnie',3],['Umiarkowanie',4],['Dobrze',5],['Bardzo dobrze',6]], @user.critical), {}, { class: 'w3-select' } %>
+		<br><br>
+		<h4>Minimalny czas pomiędzy powiadomieniami</h4>
+		<p>Nie chcemy zasypywać Cię dziesiątkami wiadomości - wybierz okres który musi upłynąć pomiędzy powiadomieniami.</p>
+		<%= f.select :delay, options_for_select([['1 godzina', 1],['2 godziny', 2],['4 godziny',4],['6 godzin',6],['8 godzin',8],['12 godzin',12]], @user.delay), {}, { class: 'w3-select' } %>
+		<br><br>
+    <%= f.submit "Zatwierdź zmiany", class: 'w3-btn w3-green' %>
+<% end %>
+</div>
+</div>

@@ -1,0 +1,356 @@
+<p id="notice"><%= notice %></p>
+<br><br>
+
+<h1>Stacje</h1>
+
+<% Station.all.each do |s|  %>
+
+  <%= s.name %> -  sensor id: <%= s.sensor_id %>, id:  <%= s.id %><br>
+<% end %>
+
+</div>
+<br>
+<br>
+<h1>Stats</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Station id</th>
+      <th>Station</th>
+      <th>Pm10</th>
+      <th>Pm25</th>
+      <th>Day</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stats.each do |stat| %>
+      <tr>
+        <td><%= stat.station_id %></td>
+        <td><%= stat.station.name %></td>
+        <td><%= stat.pm10 %></td>
+        <td><%= stat.pm25 %></td>
+        <td><%= stat.day %></td>
+        <td><%= link_to 'Show', stat %></td>
+        <td><%= link_to 'Edit', edit_stat_path(stat) %></td>
+        <td><%= link_to 'Destroy', stat, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<br><br>
+
+<h3>Calculated group_by in time zone: </h3>
+<%= Station.ids.each do |id| %>
+  <% Measurement.from_station_id(id).group_by{|m| m.created_at.in_time_zone("Warsaw").strftime("%Y-%m-%d") }.each do |d, m| %>
+      <% avg10 = m.map { |x| x["pm10"].to_f }.reduce(:+) / m.size %>
+      <% avg25 = m.map { |x| x["pm25"].to_f }.reduce(:+) / m.size %>
+      <%= Station.find(id).name %> (<%= id %>) - <%= d %> - PM10: <%= avg10.round(2) %>, PM2.5: <%= avg25.round(2) %> <br>
+  <% end %>
+<% end %>
+
+
+
+<br>
+
+
+Measurement.count: <%= Measurement.count %>
+<br>
+<br>
+
+
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <h3>Pył zawieszony PM10 i PM2.5 w Jaworznie w ostatnich 24h (uśrednienie z 20 stacji)</h3>
+
+    <canvas id="qwe" style="width: 200px; height: 100px;"></canvas>
+  </div>
+</div>
+
+
+<br>
+
+<h3>Stats from Jaworzno (Airly only) group_by day </h3><br>
+
+<table>
+<tr>
+  <th>Day</th>
+  <th>PM10</th>
+  <th>PM2.5</th>
+</tr>
+<% @stats_airly_jaworzno.order(:day).group_by{|stat| stat.day }.each do |day, s| %>
+<tr>
+  <td> <%= day %> </td>
+  <% avg10 = s.map { |x| x["pm10"].to_f }.reduce(:+) / s.size %>
+  <% avg25 = s.map { |x| x["pm25"].to_f }.reduce(:+) / s.size %>
+  <td> <%= avg10 %> </td>
+  <td> <%= avg25 %> </td>
+</tr>
+<% end %>
+
+</table>
+
+<h3>Stats from Sosnowiec (Airly only) group_by day </h3><br>
+
+<table>
+<tr>
+  <th>Day</th>
+  <th>PM10</th>
+  <th>PM2.5</th>
+</tr>
+<% @stats_airly_sosnowiec.order(:day).group_by{|stat| stat.day }.each do |day, s| %>
+<tr>
+  <td> <%= day %> </td>
+  <% avg10 = s.map { |x| x["pm10"].to_f }.reduce(:+) / s.size %>
+  <% avg25 = s.map { |x| x["pm25"].to_f }.reduce(:+) / s.size %>
+  <td> <%= avg10 %> </td>
+  <td> <%= avg25 %> </td>
+</tr>
+<% end %>
+
+</table>
+
+<h3>Stats from Mysłowice (Airly only) group_by day </h3><br>
+
+<table>
+<tr>
+  <th>Day</th>
+  <th>PM10</th>
+  <th>PM2.5</th>
+</tr>
+<% @stats_airly_myslowice.order(:day).group_by{|stat| stat.day }.each do |day, s| %>
+<tr>
+  <td> <%= day %> </td>
+  <% avg10 = s.map { |x| x["pm10"].to_f }.reduce(:+) / s.size %>
+  <% avg25 = s.map { |x| x["pm25"].to_f }.reduce(:+) / s.size %>
+  <td> <%= avg10 %> </td>
+  <td> <%= avg25 %> </td>
+</tr>
+<% end %>
+
+</table>
+
+<h3>Stats from Katowice (Airly only) group_by day </h3><br>
+
+<table>
+<tr>
+  <th>Day</th>
+  <th>PM10</th>
+  <th>PM2.5</th>
+</tr>
+<% @stats_airly_katowice.order(:day).group_by{|stat| stat.day }.each do |day, s| %>
+<tr>
+  <td> <%= day %> </td>
+  <% avg10 = s.map { |x| x["pm10"].to_f }.reduce(:+) / s.size %>
+  <% avg25 = s.map { |x| x["pm25"].to_f }.reduce(:+) / s.size %>
+  <td> <%= avg10 %> </td>
+  <td> <%= avg25 %> </td>
+</tr>
+<% end %>
+
+</table>
+
+<h3>Stats from Dąbrowa Górnicza (Airly only) group_by day </h3><br>
+
+<table>
+<tr>
+  <th>Day</th>
+  <th>PM10</th>
+  <th>PM2.5</th>
+</tr>
+<% @stats_airly_dg.order(:day).group_by{|stat| stat.day }.each do |day, s| %>
+<tr>
+  <td> <%= day %> </td>
+  <% avg10 = s.map { |x| x["pm10"].to_f }.reduce(:+) / s.size %>
+  <% avg25 = s.map { |x| x["pm25"].to_f }.reduce(:+) / s.size %>
+  <td> <%= avg10 %> </td>
+  <td> <%= avg25 %> </td>
+</tr>
+<% end %>
+
+</table>
+
+<h3>Stats from Chełm Śląski group_by day </h3><br>
+
+<table>
+<tr>
+  <th>Day</th>
+  <th>PM10</th>
+  <th>PM2.5</th>
+</tr>
+<% @stats_airly_ch.order(:day).group_by{|stat| stat.day }.each do |day, s| %>
+<tr>
+  <td> <%= day %> </td>
+  <% avg10 = s.map { |x| x["pm10"].to_f }.reduce(:+) / s.size %>
+  <% avg25 = s.map { |x| x["pm25"].to_f }.reduce(:+) / s.size %>
+  <td> <%= avg10 %> </td>
+  <td> <%= avg25 %> </td>
+</tr>
+<% end %>
+
+</table>
+
+
+<h3>Stats from January group_by station_id:</h3>
+
+<table>
+<tr>
+  <th>Day</th>
+  <th>PM10</th>
+  <th>Ile > 50</th>
+  <th>PM2.5</th>
+  <th>Ile > 25</th>
+</tr>
+<% @stats_jaworzno_january.group_by{|stat| stat.station_id }.each do |station, s| %>
+<tr>
+  <td> <%= Station.find(station).name %> </td>
+  <% avg10 = s.map { |x| x["pm10"].to_f }.reduce(:+) / s.size %>
+  <% avg25 = s.map { |x| x["pm25"].to_f }.reduce(:+) / s.size %>
+  <% count10 = s.select { |x| x["pm10"].to_f > 50 }.size %>
+  <% count25 = s.select { |x| x["pm25"].to_f > 25 }.size %>
+  <td> <%= avg10 %> </td>
+  <td> <%= count10 %> </td>
+  <td> <%= avg25 %> </td>
+  <td> <%= count25 %> </td>
+</tr>
+<% end %>
+
+</table>
+
+<h3>Stats from February group_by station_id:</h3>
+
+<table>
+<tr>
+  <th>Day</th>
+  <th>PM10</th>
+  <th>Ile > 50</th>
+  <th>PM2.5</th>
+  <th>Ile > 25</th>
+</tr>
+<% @stats_jaworzno_february.group_by{|stat| stat.station_id }.each do |station, s| %>
+<tr>
+  <td> <%= Station.find(station).name %> </td>
+  <% avg10 = s.map { |x| x["pm10"].to_f }.reduce(:+) / s.size %>
+  <% avg25 = s.map { |x| x["pm25"].to_f }.reduce(:+) / s.size %>
+  <% count10 = s.select { |x| x["pm10"].to_f > 50 }.size %>
+  <% count25 = s.select { |x| x["pm25"].to_f > 25 }.size %>
+  <td> <%= avg10 %> </td>
+  <td> <%= count10 %> </td>
+  <td> <%= avg25 %> </td>
+  <td> <%= count25 %> </td>
+</tr>
+<% end %>
+
+</table>
+
+<h3>Stats from March group_by station_id:</h3>
+
+<table>
+<tr>
+  <th>Day</th>
+  <th>PM10</th>
+  <th>Ile > 50</th>
+  <th>PM2.5</th>
+  <th>Ile > 25</th>
+</tr>
+<% @stats_jaworzno_march.group_by{|stat| stat.station_id }.each do |station, s| %>
+<tr>
+  <td> <%= Station.find(station).name %> </td>
+  <% avg10 = s.map { |x| x["pm10"].to_f }.reduce(:+) / s.size %>
+  <% avg25 = s.map { |x| x["pm25"].to_f }.reduce(:+) / s.size %>
+  <% count10 = s.select { |x| x["pm10"].to_f > 50 }.size %>
+  <% count25 = s.select { |x| x["pm25"].to_f > 25 }.size %>
+  <td> <%= avg10 %> </td>
+  <td> <%= count10 %> </td>
+  <td> <%= avg25 %> </td>
+  <td> <%= count25 %> </td>
+</tr>
+<% end %>
+
+</table>
+
+
+
+
+<h3>Calculated from last 24h</h3>
+
+<% Station.ids.each do |id| %>
+  <% Measurement.where(measured_at: (Time.now - 24.hours)..Time.now).from_station_id(id).group_by{|m| m.station_id }.each do |d, m| %>
+      <% avg10 = m.map { |x| x["pm10"].to_f }.reduce(:+) / m.size %>
+      <% avg25 = m.map { |x| x["pm25"].to_f }.reduce(:+) / m.size %>
+      <%= Station.find(id).name %> (<%= id %>) - <%= d %> - PM10: <%= avg10.round(2) %>, PM2.5: <%= avg25.round(2) %> <br>
+  <% end %>
+<% end %>
+
+
+<br>
+
+<h3>Plac</h3>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Station id</th>
+      <th>Station</th>
+      <th>Day</th>
+      <th>Pm10</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stats_wios_plac.each do |stat| %>
+      <tr>
+        <td><%= stat.station_id %></td>
+        <td><%= stat.station.name %></td>
+        <td><%= stat.day %></td>
+        <td><%= stat.pm10 %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<h3>Rynek</h3>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Station id</th>
+      <th>Station</th>
+      <th>Day</th>
+      <th>Pm10</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stats_wios_rynek.each do |stat| %>
+      <tr>
+        <td><%= stat.station_id %></td>
+        <td><%= stat.station.name %></td>
+        <td><%= stat.day %></td>
+        <td><%= stat.pm10 %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<script>
+let data = [66.11736842105265, 83.89999999999999, 38.74894736842106, 28.743684210526315, 46.53105263157895, 102.26315789473684, 61.11771799338147, 38.33388211003999, 50.567569381916954, 97.38607827774352, 98.66607887485837, 44.53715205013495, 35.22631037655945, 43.98765583156097, 81.32539550981744, 81.52811834997775, 40.70384364395283, 32.00747704199808, 44.44888909472022, 94.35569526181479, 75.0221870123216, 59.73567392175115, 90.50872403370472, 90.74207764455514, 94.03848131243495, 163.44568381325934, 188.08138893398035, 61.859144446820906, 29.669035582105696, 15.855597549440994, 54.15223561202629];
+pm10_report("qwe", 31, data);
+
+// city(
+//   "qwe", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28],
+//   ,
+//   [42.68631578947368, 54.45894736842104, 24.980526315789472, 18.499473684210525, 30.545263157894745, 68.54263157894738, 40.854179012868606, 24.888784785348946, 31.920705217178842, 63.98730296027564, 63.64430472687686, 27.7955285034397, 22.992275210769446, 28.122036186373695, 51.37628348296287, 51.82904624092559, 26.069323449615723, 20.732742260730927, 29.178667151467632, 61.1639688786434, 47.670493515578336, 36.89122622935597, 57.763138102699436, 58.79130131646902, 60.22325360236365, 105.66050157470443, 119.34335185798426, 38.84316969]
+// )
+
+</script>
+
+<%= link_to 'New Stat', new_stat_path %>

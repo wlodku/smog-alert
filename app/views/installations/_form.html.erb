@@ -1,0 +1,27 @@
+<%= form_for(installation) do |f| %>
+  <% if installation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(installation.errors.count, "error") %> prohibited this installation from being saved:</h2>
+
+      <ul>
+      <% installation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    Nazwa
+    <%= f.text_field :name, class: 'w3-input w3-border' %>
+  </div>
+
+  <div class="field">
+    Numer id na mapie Airly
+    <%= f.number_field :sensor_id, class: 'w3-input w3-border' %>
+  </div>
+<br>
+  <div class="actions">
+    <%= f.submit "Zatwierdź", class: 'w3-btn w3-green'%>
+  </div>
+<% end %>

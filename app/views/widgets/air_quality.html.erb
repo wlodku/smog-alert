@@ -1,0 +1,174 @@
+<!-- <div class="w3-center">
+<br>
+  Średnia z 20 stacji
+  <div class="w3-row">
+
+    <div class="w3-col s12 w3-yellow">
+      <br>
+      <h4>Jaworzno (110%)</h4>
+      <br>
+    </div>
+
+  </div>
+  <br><br>
+  <h4>Tendencja:
+    <i class="fa fa-arrow-circle-up"></i>
+  </h4>
+  <div class="w3-row">
+
+    <div class="w3-col s6">
+      Max
+      <h5 class="w3-red">Jeleń Kościół (120%)</h5>
+    </div>
+    <div class="w3-col s6">
+      Min
+      <h5 class="w3-green">Osiedle Stałe Basen (60%)</h5>
+    </div>
+  </div>
+
+
+  <a href="http://www.jaworznobezsmogu.pl">www.jaworznobezsmogu.pl</a>
+
+</div> -->
+
+<div class="row">
+  <div class="col s12 m12">
+    <div class="card">
+
+
+
+      <div class="card-content">
+        <span class="card-title activator"><i class="material-icons right">more_vert</i>Jakość powietrza</span>
+        <p class="right-align" style="font-weight: 300; font-size: 0.9em;">Aktualizacja <%= @live3.last.created_at.in_time_zone("Warsaw").strftime("%H:%M") %></p>
+
+        <%= getWidgetColor(@avg10, @avg25) %>
+          <div class="row">
+            <p class="center-align" style="padding-top: 20px; font-weight: 300;"><%= getMark(@avg10, @avg25) %> <br><%= ((@avg10.round(2)*100)/50).round %>%</p>
+          </div>
+        </div>
+        <p class="center-align" style="font-weight: 300; padding: 10px;">Całe Jaworzno (20 stacji)</p>
+
+        <!-- <span class="card-title"><i class="material-icons left">timeline</i> Ostatnie godziny</span> -->
+        <canvas id="chart" width="100%" height="60%"></canvas>
+        <div class="row">
+          <div class="col s6 m6">
+            <span class="card-title"><i class="material-icons">arrow_drop_up</i>Max</span>
+            <%= getWidgetColorSmall(@live2.first.pm10, @live2.first.pm25) %>
+              <div class="row">
+                <p class="center-align" style="padding-top: 20px; font-weight: 300;"><%= getMark(@live2.first.pm10, @live2.first.pm25) %></p>
+              </div>
+            </div>
+            <p class="center-align" style="font-weight: 300;"><%= @live2.first.installation.name if @live2.first.installation%> <%= (@live2.first.pm10*100)/50 %>%</p>
+          </div>
+          <div class="col s6 m6">
+            <span class="card-title"><i class="material-icons">arrow_drop_down</i>Min</span>
+            <%= getWidgetColorSmall(@live2.last.pm10, @live2.last.pm25) %>
+              <div class="row">
+                <p class="center-align" style="padding-top: 20px; font-weight: 300;"><%= getMark(@live2.last.pm10, @live2.last.pm25) %></p>
+              </div>
+            </div>
+            <p class="center-align" style="font-weight: 300;"><%= @live2.last.installation.name if @live2.last.installation%> <%= (@live2.last.pm10*100)/50 %>%</p>
+          </div>
+        </div>
+
+        <!-- <p style="text-align: center;"><a href="http://www.jaworznobezsmogu.pl" target="_blank">www.jaworznobezsmogu.pl</a></p> -->
+        <hr style="opacity: 0.3;">
+        <p style="font-weight: 300; font-size: 0.9em; text-align: center;"><a href="http://www.jaworznobezsmogu.pl/" target="_blank">www.jaworznobezsmogu.pl</a></p>
+
+      </div>
+
+      <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">Jakość powietrza<i class="material-icons right">close</i></span>
+
+        <%= getWidgetColor(@avg10, @avg25) %>
+          <div class="row">
+            <p class="center-align" style="padding-top: 20px; font-weight: 300;"><%= getMark(@avg10, @avg25) %> <br><%= ((@avg10.round(2)*100)/50).round %>%</p>
+          </div>
+        </div>
+
+        <blockquote><%= getInterpretation(@avg10, @avg25) %></blockquote>
+        <p>Uśrednione wartości z 20 stacji [ug/m3]</p>
+        <div class="collection">
+          <a href="#!" class="collection-item"><span class="badge"><%= @avg10.round(2) %></span>PM10</a>
+          <a href="#!" class="collection-item"><span class="badge"><%= @avg25.round(2) %></span>PM2.5</a>
+        </div>
+        Źródło pomiarów: <a href="https://airly.eu/pl/" target="_blank">Airly</a>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<script>
+
+function area(canvasId, labels, pm10, pm25) {
+  var ctx = document.getElementById(canvasId).getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [
+        {
+            label: "PM10 [ug/m3]",
+            data: pm10,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 2,
+            fill: false
+        },
+        {
+            label: '100%',
+            data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+            backgroundColor: [
+                // 'rgba(255, 99, 132, 0.1)',
+                // 'rgba(54, 162, 235, 0.2)',
+                // 'rgba(255, 206, 86, 0.2)',
+                'rgba(54, 162, 235, 0.2)'
+
+            ],
+            borderColor: [
+              'rgba(54, 162, 235, 1)'
+            ],
+            borderWidth: 1,
+            pointRadius: 0
+        }
+      ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                scaleLabel: {
+                  display: false,
+                  labelString: '[ug/m3]'
+                },
+                ticks: {
+                    beginAtZero:true
+                },
+
+            }],
+            xAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: 'godziny'
+              },
+            }
+            ],
+        },
+        legend: {
+          position:'top'
+        }
+    }
+  });
+}
+
+area(
+  "chart", <%= @jaw10.keys.map{|v| v } %>,
+  <%= @jaw10.values.map{|v| v.round} %>,
+  <%= @jaw25.values.map{|v| v.round} %>
+)
+</script>

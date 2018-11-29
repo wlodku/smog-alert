@@ -1,0 +1,219 @@
+<% content_for :title, " - Powietrze w Jaworznie, marzec 2018" %>
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+
+    <h1>Powietrze w Jaworznie - marzec 2018</h1>
+  <br>
+    <div class="w3-center imago">
+    <%= image_tag "podleze.jpg" %>
+    </div>
+    <br>
+    <h2>Pomiary dla całego Jaworzna (uśrednienie z 20 stacji) za marzec 2018</h2>
+    <br>
+    <div class="w3-container w3-center">
+
+    <table class="w3-table w3-bordered w3-card-4">
+      <tr>
+        <td><b>PM10</b></td>
+        <td>
+          <%= (@stats_jaworzno.map { |x| x["pm10"].to_f }.reduce(:+) / @stats_jaworzno.size).round(2) %> µg/m3
+        </td>
+      </tr>
+      <tr>
+        <td><b>PM2.5</b></td>
+        <td>
+          <%= (@stats_jaworzno.map { |x| x["pm25"].to_f }.reduce(:+) / @stats_jaworzno.size).round(2) %> µg/m3
+        </td>
+      </tr>
+    </table>
+
+    </div>
+
+    <br><br>
+    <h3 class="w3-center">Średniodobowe stężenia PM10</h3>
+    <canvas id="pm10" width="400" height="200"></canvas>
+    <h4>Ilość dni z przekroczoną normą dobową:
+      <span id="countDays10"></span>/31
+    </h4>
+    <br>
+    <p>Niestety marzec nie pozwolił nam odetchnąć - przeciwnie, w dniach 4-7 marca w Jaworznie ogłaszano kilka alarmów smogowych. To zaskakujące, ale <b>największy smog w tym sezonie grzewczym </b>w naszym regionie przeżyliśmy w marcu.</p>
+    <br><br>
+    <h2>Pomiary dla poszczególnych dzielnic</h2>
+    <br>
+    <h3 class="w3-center">Średnie miesięczne stężenia PM10 dla poszczególnych czujników</h3>
+
+    <canvas id="districts" width="400" height="250"></canvas>
+
+    <br>
+
+    <p>W zestawieniu pominęliśmy dane z czujnika w Szczakowej: zbierał dane tylko przez 6 dni (szczegóły na wykresie skumulowanym).</p>
+
+    <p>Bez niespodzianki. Zdumiewająca regularność - pierwsza i ostatnia czwórka niezmienna.</p>
+
+<br><br>
+    <p>Czas na szczegółową tabelę danych. <b>Nagłówek tabeli jest klikalny</b> - można ją sortować po wybranych wartościach rosnąco / malejąco. </p>
+    <br>
+    <h3 class="w3-center">Średnie miesięczne pyłów dla poszczególnych czujników - szczegóły</h3>
+    <br>
+    <table class="sortable w3-table w3-striped w3-card-4 w3-row">
+      <thead><tr><th>Lokalzacja</th><th>PM10 [ug/m3]</th><th>PM2.5 [ug/m3]</th><th>Ile dni z przekroczoną normą PM10</th></tr></thead>
+      <tbody>
+        <tr><td>Jeleń Kościół</td><td>117,08</td><td>69,07</td><td>26</td></tr>
+  <tr><td>Byczyna</td><td>97,20</td><td>64,26</td><td>26</td></tr>
+  <tr><td>Bory</td><td>89,73</td><td>54,19</td><td>25</td></tr>
+  <tr><td>Stadion Azotania</td><td>87,44</td><td>54,02</td><td>24</td></tr>
+  <tr><td>Dąbrowa Narodowa</td><td>81,34</td><td>53,96</td><td>24</td></tr>
+  <tr><td>Stara Huta</td><td>80,09</td><td>52,20</td><td>24</td></tr>
+  <tr><td>Osiedle Azot</td><td>79,63</td><td>54,15</td><td>24</td></tr>
+  <tr><td>Elektrownia Zespół Szkół</td><td>78,46</td><td>46,07</td><td>23</td></tr>
+  <tr><td>Jeleń Wygoda</td><td>78,38</td><td>54,17</td><td>24</td></tr>
+  <tr><td>Pieczyska</td><td>75,81</td><td>47,94</td><td>24</td></tr>
+  <tr><td>Ciężkowice</td><td>73,82</td><td>49,96</td><td>23</td></tr>
+  <tr><td>Długoszyn</td><td>72,86</td><td>48,61</td><td>24</td></tr>
+  <tr><td>Rynek</td><td>72,11</td><td>46,98</td><td>25</td></tr>
+  <tr><td>Jeziorki</td><td>71,58</td><td>46,12</td><td>25</td></tr>
+  <tr><td>Podłęże Ławczana</td><td>70,76</td><td>44,81</td><td>23</td></tr>
+  <tr><td>Sulińskiego Górka</td><td>66,45</td><td>44,01</td><td>20</td></tr>
+  <tr><td>Plac Górników</td><td>63,39</td><td>43,26</td><td>21</td></tr>
+  <tr><td>Podwale</td><td>60,94</td><td>40,61</td><td>22</td></tr>
+  <tr><td>Osiedle Stałe Basen</td><td>57,92</td><td>38,87</td><td>18</td></tr>
+      </tbody>
+    </table>
+
+<br>
+<br>
+<p>Na koniec wszystkie stacje na jednym wykresie liniowym. <b>Legenda jest klikalna</b> - można pokazywać i ukrywać poszczególne serie danych</p>.
+<p>Kolory dobierane są losowo - <b>w celu dobrania nowych kolorów prosimy odświeżyć stronę.</b> </p>
+
+
+<h3 class="w3-center">Stężenia pyłów PM10 w poszczególnych dzielnicach - luty 2018</h3>
+
+<canvas id="station_chart" width="410" height="240"></canvas>
+
+<br><br>
+<h2>Źródła danych</h2>
+
+<p>Źródłem analizy były odczyty 20 czujników firmy Airly (dziewiętnaście zakupionych przez Miasto Jaworzno oraz jeden przez Eurobank). Co 10 minut łączymy się z API urządzeń i odczytujemy bieżące pomiary zanieczyszczeń. Dodatkowo począwszy od 1 stycznia 2018 kilka minut po północy pobieramy z serwera Airly 24 średnie godzinowe z ostatniej doby i <b>zapisujemy do bazy danych średnią dobową dla każdego z 20 urządzeń.</b></p>
+
+<p>Jaworznickie czujniki dokonują laserowego pomiaru cząstek stałych PM10 oraz PM 2.5. Nie są mierzone wartości benzo(a)pirenów, SOx oraz NOx. Nie są w stanie wykryć spalania odpadów. Są to proste pyłomierze.</p>
+
+<p>Kwestię tego czy odczyty urządzeń firmy Airly są wiarygodne <a href="http://www.jaworznobezsmogu.pl/aktualnosci/pomiary">omówiliśmy w osobnym artykule</a>. Ich największą zaletą w naszym mieście jest ich ilość. Dzięki temu możemy zbadać <b>zróżnicowanie przestrzenne</b> zanieczyszczeń w Jaworznie.</p>
+<br>
+<p class="w3-right"><i>WB</i></p>
+      <script>
+      // document.addEventListener("DOMContentLoaded", function(){
+
+        // $(document).on('turbolinks:load', function () {
+
+          var originalLineDraw = Chart.controllers.horizontalBar.prototype.draw;
+          Chart.helpers.extend(Chart.controllers.horizontalBar.prototype, {
+
+              draw: function () {
+                  originalLineDraw.apply(this, arguments);
+
+                  var chart = this.chart;
+                  var ctx = chart.chart.ctx;
+
+                  var index = chart.config.options.lineAtIndex;
+                  if (index) {
+
+                      var xaxis = chart.scales['x-axis-0'];
+                      var yaxis = chart.scales['y-axis-0'];
+
+                      var x1 = xaxis.getPixelForValue(index);
+                      var y1 = yaxis.top;
+
+                      var x2 = xaxis.getPixelForValue(index);
+                      var y2 = yaxis.bottom;
+
+                      ctx.save();
+                      ctx.beginPath();
+                      ctx.moveTo(x1, y1);
+                      ctx.strokeStyle = 'red';
+                      ctx.lineTo(x2, y2);
+                      ctx.stroke();
+
+                      ctx.restore();
+                  }
+              }
+          });
+
+          let data = <%= @pm10 %>;
+          pm10_report("pm10", 31, data);
+          document.getElementById("countDays10").innerHTML = data.filter(x => x > 50).length;
+
+          // let data2 = [49.340934397569455, 53.869895370708576, 88.0345992198564, 66.44015033365315, 45.33708394879072, 81.78916287244756, 60.58043984328595, 64.06774855482942, 71.31776973753085, 76.08253358706463, 89.71201103397307, 70.66827681090813, 84.39981464972674, 39.486135238743984, 40.66142417525759, 53.02781331766703, 68.81771379921125, 56.02015852520967, 28.46595592602782, 40.93377777954298, 46.110914927179195, 31.86941347252634, 40.30307128810376, 41.54384334403992, 42.53776669355457, 47.45136989550629, 30.91189661441798, 34.29504548];
+          // pm25_report("pm25_february", 28, data2);
+          // document.getElementById("countDays25").innerHTML = data2.filter(x => x > 25).length;
+          //
+          // let data = [78.51456311, 143.6421053, 90.47368421, 44.88421053, 39.43157895, 38.87368421, 33.56842105, 45.23348018, 43.76842105, 20.21276596, 15.50434783, 10.61052632, 48.29473684, 18.97894737, 39.53684211, 130.4315789, 111.0736842, 143.4210526,
+          // 94.52631579, 87.8277512, 54.16845878, 36.31654676, 27.58422939, 20.18996416, 36.38351254, 68.21582734, 69.07608696, 30.09473684, 53.66666667, 58.17894737, 26.02222222]; pm10_report("pm10_november", 30, data);
+          // document.getElementById("countDays10").innerHTML = data.filter(x=> x > 50).length ; Chart.defaults.global.legend.display = false;
+          let ctx = document.getElementById("districts").getContext('2d');
+          let data3 = [117.08, 97.20, 89.73, 87.44, 81.34, 80.09, 79.63, 78.46, 78.38, 75.81, 73.82, 72.86, 72.11, 71.58, 70.76, 66.45, 63.39, 60.94, 57.92];
+
+          let myBarChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+              labels: ['Jeleń Kościół', 'Byczyna', 'Bory', 'Stadion Azotania', 'Dąbrowa Narodowa', 'Stara Huta', 'Osiedle Azot', 'Elektrownia Zespół Szkół', 'Jeleń Wygoda', 'Pieczyska', 'Ciężkowice', 'Długoszyn', 'Rynek', 'Jeziorki', 'Podłęże Ławczana', 'Sulińskiego Górka', 'Plac Górników', 'Podwale', 'Osiedle Stałe Basen'],
+              datasets: [
+                {
+                  label: 'PM10 [ug/m3]',
+                  backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                  data: data3
+                }
+                // , {
+                //   type: 'line',
+                //   label: 'Wartość dopuszczalna - 40 [ug/m3]',
+                //   backgroundColor: 'rgba(255, 99, 132, 0)',
+                //   borderColor: 'rgba(255, 0, 0, 1)',
+                //   borderWidth: 1,
+                //
+                // }
+              ]
+            },
+            options: {
+              // lineAtIndex: 50,
+              scales: {
+                xAxes: [
+                  {
+                    position: 'top',
+                    ticks: {
+                      beginAtZero: true
+                    }
+                  }
+                ],
+                yAxes: [
+                  {
+                    ticks: {
+                      fontSize: 14
+                    }
+                  }
+                ]
+              }
+            }
+          });
+
+          // });
+        // });
+
+        var nil = null
+
+        monthly_chart(
+        "station_chart", [...Array.from(new Array(28), (x,i) => i+1)],
+        <% @stats_jaworzno.group_by{|stat| stat.station_id }.each do |station, s| %>
+        <% avg = Array.new(28, nil) %>
+        <% (0..27).each do |i| %>
+          <% s.each do |s| %>
+            <% avg[i] = s["pm10"].to_f if s["day"].day == i+1 %>
+          <% end %>
+        <% end %>
+        "<%= Station.find(station).name %>", <%= avg %>,
+        <% end %>
+        )
+
+
+      </script>
+
+    </div>
+  </div>

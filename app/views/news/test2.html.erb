@@ -1,0 +1,272 @@
+
+<div class="w3-container w3-center">
+
+
+  <div id="counter"></div>
+  <br>
+  <%= link_to "O co chodzi?", deadline_path, class: ""%>
+</div>
+
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+
+  <h1 class="w3-center">Najbardziej zanieczyszczone miasta Unii Europejskiej</h1>
+  <div class="w3-center imago">
+  <%= image_tag "bieda.jpg" %>
+  </div>
+
+<h3 class="w3-center">Średnioroczne stężenia pyłu PM2.5 [ug/m3]</h3>
+<canvas id="pollution" width="400" height="350"></canvas>
+<div class="w3-right-align">Na podstawie raportu WHO z roku 2016</div>
+<div class="w3-right-align">Źródło danych:  <a href="http://www.who.int/phe/health_topics/outdoorair/databases/cities/en/">http://www.who.int/phe/health_topics/outdoorair/databases/cities/en/</a> </div>
+<br>
+<h4 class="w3-center">www.jaworznobezsmogu.pl</h4>
+<br><br>
+<h3 class="w3-center">Wartości dobowe PM10 na przełomie lutego i marca 2018</h3>
+<canvas id="ambulance" width="400" height="250"></canvas>
+<div class="w3-right-align">Źródło danych: pomiary WIOŚ</div>
+<div class="w3-right-align">www.jaworznobezsmogu.pl</div>
+<br><br>
+
+<h3 class="w3-center">Stężenia pyłu PM10 [ug/m3] w dniach 23.02 - 9.03.2018 (pomiary WIOŚ)</h3>
+<p class="w3-center">36 z 50 najbardziej zanieczyszczonych miast UE według WHO oraz Jaworzno</p>
+
+<canvas id="pollution2" width="400" height="350"></canvas>
+
+
+<script>
+// $(document).on('turbolinks:load', function() {
+  Chart.defaults.global.legend.display = false;
+  var ctx = document.getElementById("pollution").getContext('2d');
+  var myBarChart = new Chart(ctx, {
+      type: 'horizontalBar',
+      data: {
+          labels:["Żywiec, Polska", "Pszczyna, Polska", "Dimitrovgrad, Bułgaria", "Rybnik, Polska", "Wodzisław Śląski, Polska", "Sucha Beskidzka, Polska", "Opoczno, Polska", "Godów, Polska", "Dolny Voden, Bugaria", "Skawina, Polska", "Montana, Bułgaria", "Kraków, Polska", "Varna, Bułgaria", "Tuchów, Polska", "Nowy Sącz, Polska", "Niepołomice, Polska", "Knurów, Polska", "Zabrze, Polska", "Wadowice, Polska", "Nowa Ruda, Polska", "Katowice, Polska", "Gliwice, Polska", "Soresina, Włochy", "Proszowice, Polska", "Plovdiv, Bułgaria", "Brzeziny, Polska", "Bielsko Biała, Polska", "Zduńska Wola, Polska", "Sosnowiec, Polska", "Settimo Torinese, Włochy", "Ruse, Bułgaria", "Rawa Mazowiecka, Polska", "Pazarjik, Bułgaria", "Orlova, Czechy", "Kędzieżyn Koźle, Polska", "Havirov, Czechy", "Haskovo, Bułgaria", "Cesky Tesin, Czechy", "Zakopane, Polska", "Tychy, Polska", "Tomaszów Mazowiecki, Polska", "Ostrava, Czechy", "Nakło, Polska", "Karvina, Czechy", "Kalisz, Polska", "Jarosław, Polska", "Dąbrowa Górnicza, Polska", "Żory, Polska", "Pernik, Bernik", "Brescia, Włochy"],
+          datasets: [
+          {
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              data: [43, 43, 42, 40, 39, 39, 39, 38, 38, 37, 37, 37, 36, 36, 36, 36, 36, 35, 35, 35, 35, 35, 34, 34, 34, 34, 34, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 32, 32, 32, 32, 32, 32, 32, 32, 32, 31, 31, 31]
+          }
+        ]
+      },
+      options: {
+          scales: {
+              xAxes: [
+              {
+                position: 'top',
+                ticks: {
+                    beginAtZero:true
+                },
+
+              }
+            ],
+            yAxes: [
+            {
+              ticks: {
+                  fontSize: 14
+              },
+
+            }
+          ],
+
+          }
+      }
+  });
+
+
+  var ctx = document.getElementById("pollution2").getContext('2d');
+  var myBarChart = new Chart(ctx, {
+      type: 'horizontalBar',
+      data: {
+          labels: ["Żywiec", "Pszczyna", "Rybnik", "Wodzisław Śląski", "Myszków", "Kraków (Aleje)", "Dąbrowa Górnicza", "Nowy Tomyśl", "Bielsko Biała", "Zabrze", "Godów", "Jaworzno", "Nowa Ruda", "Knurów", "Katowice", "Nowy Sącz", "Brzeziny", "Otwock", "Radomsko", "Zduńska Wola", "Jarosław", "Sosnowiec", "Sucha Beskidzka", "Gliwice", "Rawa Mazowiecka", "Piotrków Trybunalski", "Tomaszów Mazowiecki", "Pleszew", "Opoczno", "Tuchów", "Wągrowiec", "Skawina", "Piastów", "Kraków (Dietla)", "Niepołomice", "Proszowice", "Nakło", "Wadowice"],
+          datasets: [
+          {
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              data: [141, 128, 123, 121, 116, 108, 101, 100, 99, 98, 97, 92, 91, 91, 85, 84, 82, 81, 80, 80, 79, 78, 77, 77, 71, 68, 68, 68, 65, 62, 61, 61, 60, 59, 55, 50, 50, 50]
+          }
+        ]
+      },
+      options: {
+          scales: {
+              xAxes: [
+              {
+                position: 'top',
+                ticks: {
+                    beginAtZero:true
+                },
+
+              }
+            ],
+            yAxes: [
+            {
+              ticks: {
+                  fontSize: 14
+              },
+
+            }
+          ],
+
+          }
+      }
+  });
+
+
+var ctx = document.getElementById("ambulance").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ["23.02", "24.02", "25.02", "26.02", "27.02", "28.02", "1.03", "2.03", "3.03", "4.03", "5.03", "6.03", "7.03", "8.03", "9.03"],
+        datasets: [
+          {
+            label: 'Jaworzno - 92,7 [ug/m3]',
+            data: [66.009, 58.483, 46.53, 71.029, 43.820, 46.13, 96.36, 90.608, 111.18, 134.38, 192.13, 182.25, 117.50, 80.066, 54.291],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)'
+                // 'rgba(54, 162, 235, 0.2)',
+                // 'rgba(255, 206, 86, 0.2)',
+                // 'rgba(75, 192, 192, 0.2)',
+                // 'rgba(153, 102, 255, 0.2)',
+                // 'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)'
+                // 'rgba(54, 162, 235, 1)',
+                // 'rgba(255, 206, 86, 1)',
+                // 'rgba(75, 192, 192, 1)',
+                // 'rgba(153, 102, 255, 1)',
+                // 'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 2,
+            fill: false
+        },
+        {
+          label: 'Katowice - 85,2 [ug/m3]',
+          data: [56, 43, 55, 74, 54, 59, 99, 92, 119, 147, 137, 180, 85, 40, 38],
+          backgroundColor: [
+              // 'rgba(255, 99, 132, 0.2)'
+              'rgba(54, 162, 235, 0.2)',
+              // 'rgba(255, 206, 86, 0.2)',
+              // 'rgba(75, 192, 192, 0.2)'
+              // 'rgba(153, 102, 255, 0.2)',
+              // 'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+              // 'rgba(255,99,132,1)'
+              'rgba(54, 162, 235, 1)',
+              // 'rgba(255, 206, 86, 1)',
+              // 'rgba(75, 192, 192, 1)'
+              // 'rgba(153, 102, 255, 1)',
+              // 'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1,
+          fill: false
+      },
+      {
+        label: 'Sosnowiec - 61,3 [ug/m3]',
+        data: [54, 37, 44, 53, 29, 40, 82, 62, 97, 147, 181, 151, 99, 54, 45],
+        backgroundColor: [
+            // 'rgba(255, 99, 132, 0.2)'
+            // 'rgba(54, 162, 235, 0.2)'
+            // 'rgba(255, 206, 86, 0.2)',
+            // 'rgba(75, 192, 192, 0.2)',
+            // 'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+            // 'rgba(255,99,132,1)'
+            // 'rgba(54, 162, 235, 1)',
+            // 'rgba(255, 206, 86, 1)'
+            // 'rgba(75, 192, 192, 1)',
+            // 'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1,
+        fill: false
+    },
+    // {
+    //   label: 'Skawina',
+    //   data: [44, 49, 46, 50, 38, 47, 64, 41, 90, 84, 37, null, null, 95, 112],
+    //   backgroundColor: [
+    //       // 'rgba(255, 99, 132, 0.2)'
+    //       // 'rgba(54, 162, 235, 0.2)'
+    //       // 'rgba(255, 206, 86, 0.2)',
+    //       'rgba(75, 192, 192, 0.2)',
+    //       // 'rgba(153, 102, 255, 0.2)',
+    //       // 'rgba(255, 159, 64, 0.2)'
+    //   ],
+    //   borderColor: [
+    //       // 'rgba(255,99,132,1)'
+    //       // 'rgba(54, 162, 235, 1)'
+    //       // 'rgba(255, 206, 86, 1)',
+    //       'rgba(75, 192, 192, 1)',
+    //       // 'rgba(153, 102, 255, 1)',
+    //       // 'rgba(255, 159, 64, 1)'
+    //   ],
+    //   borderWidth: 1,
+    //   fill: false
+    // },
+      {
+        label: 'Wart. dopuszczalna - 50,0 [ug/m3]',
+        data: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)'
+            // 'rgba(54, 162, 235, 0.2)'
+            // 'rgba(255, 206, 86, 0.2)',
+            // 'rgba(75, 192, 192, 0.2)',
+            // 'rgba(153, 102, 255, 0.2)',
+            // 'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+            'rgba(255,99,132,1)'
+            // 'rgba(54, 162, 235, 1)'
+            // 'rgba(255, 206, 86, 1)',
+            // 'rgba(75, 192, 192, 1)',
+            // 'rgba(153, 102, 255, 1)',
+            // 'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 0.1,
+        fill: true,
+        pointRadius: 0
+        }
+      ]
+    },
+
+    options: {
+        scales: {
+            yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'ug/m3'
+                },
+                ticks: {
+                    beginAtZero:true
+                },
+
+            }],
+            xAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: 'Dzień'
+              },
+            }
+            ],
+        },
+        legend: {
+          display: true,
+          position:'top'
+        }
+    }
+
+});
+// });
+
+
+</script>
+
+
+</div>
+
+
+
+</div>

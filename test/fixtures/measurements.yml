@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pm1: 
+  pm25: 
+  pm10: 
+  station: one
+
+two:
+  pm1: 
+  pm25: 
+  pm10: 
+  station: two

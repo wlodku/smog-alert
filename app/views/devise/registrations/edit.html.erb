@@ -1,0 +1,47 @@
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+<h2>Edycja użytkownika</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'w3-input w3-border' %>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :password %> <i>(pozostaw puste jeśli go nie zmieniasz)</i><br />
+    <%= f.password_field :password, autocomplete: "off", class: 'w3-input w3-border' %>
+    <% if @minimum_password_length %>
+      <br />
+      <em>co najmniej <%= @minimum_password_length %> znaków</em>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off", class: 'w3-input w3-border' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :current_password %> <i>(dla potwierdzenia tożsamości)</i><br />
+    <%= f.password_field :current_password, autocomplete: "off", class: 'w3-input w3-border' %>
+  </div>
+<br>
+  <div class="actions">
+    <%= f.submit "Update", class: 'w3-btn w3-green' %>
+  </div>
+<% end %>
+<br>
+<h3>Usuń moje konto</h3>
+
+<p> <%= button_to "Usuń", registration_path(resource_name), data: { confirm: "Jesteś tego pewny?" }, method: :delete, class: 'w3-btn w3-red' %></p>
+
+<%= link_to "Powrót", :back %>
+</div>
+</div>

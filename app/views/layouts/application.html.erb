@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Jaworznicki Alarm Smogowy <%= yield(:title) %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <%= csrf_meta_tags %>
+
+    <!-- < stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %> -->
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <!-- < javascript_include_tag 'application', 'data-turbolinks-track': 'true' %> -->
+    <%= javascript_include_tag 'application' %>
+
+
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111099084-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-111099084-1');
+    </script>
+
+
+
+  </head>
+
+  <body>
+    <!-- <p class="notice">< notice %></p>
+    <p class="alert">< alert %></p> -->
+    <!-- Navbar -->
+    <div class="w3-top">
+      <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+        <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu">
+          <i class="fa fa-bars"></i>
+        </a>
+        <%= link_to "Na żywo", root_path, class: "w3-bar-item w3-button w3-padding-large w3-white"%>
+        <!-- < link_to "Analiza pomiarów", analiza_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%> -->
+        <div class="w3-dropdown-hover">
+          <button class="w3-button w3-hide-small w3-padding-large w3-hover-white">Aktualności</button>
+          <div class="w3-dropdown-content w3-bar-block w3-border">
+            <%= link_to "Powietrze w Jaworznie: marzec 2018", aktualnosci_marzec2018_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+            <%= link_to "Powietrze w Jaworznie: luty 2018", aktualnosci_luty2018_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+            <%= link_to "Wiarygodność urządzeń pomiarowych", aktualnosci_pomiary_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+            <%= link_to "Powietrze w Jaworznie: styczeń 2018", aktualnosci_styczen2018_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+            <%= link_to "Wykres miesięczny: grudzień 2017", aktualnosci_grudzien2017_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+            <%= link_to "Wykres miesięczny: listopad 2017", aktualnosci_listopad2017_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+          </div>
+        </div>
+        <%= link_to "List do sąsiada", list_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+        <%= link_to "Widgety", widgety_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+        <%= link_to "Kontakt", kontakt_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+        <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Czym oddychamy</a>
+        <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Co możemy zrobić?</a> -->
+        <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Kontakt</a> -->
+
+        <a href="https://www.facebook.com/JaworznickiAlarmSmogowy/" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">
+          <i class="fa fa-facebook-official w3-hover-opacity"></i>
+        </a>
+        <!-- Users/notif -->
+
+        <% if user_signed_in? %>
+        <div class="w3-dropdown-hover w3-right">
+          <button class="w3-button w3-hide-small w3-padding-large w3-hover-white"><i class="fa fa-user"></i> <%= current_user.email %></button>
+          <div class="w3-dropdown-content w3-bar-block w3-border">
+            <%= link_to "Edycja profilu", edit_user_registration_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white " %>
+            <%= link_to "Wyloguj", destroy_user_session_path, method: :delete, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white " %>
+          </div>
+        </div>
+
+          <% if current_user.is_admin %>
+            <div class="w3-dropdown-hover w3-right">
+              <button class="w3-button w3-hide-small w3-padding-large w3-hover-white"><i class="fa fa-cog"></i> Administracja</button>
+              <div class="w3-dropdown-content w3-bar-block w3-border">
+                <%= link_to "Ustawienia", installations_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white " %>
+                <%= link_to "Użytkownicy", people_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white " %>
+              </div>
+            </div>
+          <% end %>
+
+        <% end %>
+        <div class="w3-dropdown-hover w3-right">
+          <button class="w3-button w3-hide-small w3-padding-large w3-hover-white"><i class="fa fa-bell"></i> System ostrzegania</button>
+          <div class="w3-dropdown-content w3-bar-block w3-border">
+            <% if !user_signed_in? %>
+              <%= link_to "Zaloguj", new_user_session_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+              <%= link_to "Zarejestruj", new_user_registration_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+            <% else %>
+              <%= link_to "Ustawienia", subscriptions_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+            <% end %>
+            <%= link_to "Jak to działa?", alert_path, class: " w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white "%>
+          </div>
+        </div>
+
+        <div class="w3-bar-item w3-right w3-padding-large w3-hide-large w3-hide-medium">JAS</div>
+
+
+      </div>
+
+      <!-- Navbar on small screens -->
+      <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+        <%= link_to "Powietrze w Jaworznie: marzec 2018", aktualnosci_marzec2018_path, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+        <%= link_to "Powietrze w Jaworznie: luty 2018", aktualnosci_luty2018_path, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+        <%= link_to "Wiarygodność urządzeń pomiarowych", aktualnosci_pomiary_path, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+        <%= link_to "Powietrze w Jaworznie: styczeń 2018", aktualnosci_styczen2018_path, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+        <%= link_to "Wykres miesięczny: grudzień 2017", aktualnosci_grudzien2017_path, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+        <%= link_to "Wykres miesięczny: listopad 2017", aktualnosci_listopad2017_path, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+        <%= link_to "List do sąsiada", list_path, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+        <%= link_to "Widgety na stronę", widgety_path, class: " w3-bar-item w3-button w3-padding-large "%>
+        <%= link_to "Powiadomienia - jak to działa?", alert_path, class: " w3-bar-item w3-button w3-padding-large "%>
+        <%= link_to "Kontakt", kontakt_path, class: " w3-bar-item w3-button w3-padding-large "%>
+        <% if user_signed_in? %>
+          <%= link_to "Edycja konta", edit_user_registration_path, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+          <%= link_to "Ustawienia powiadomień", subscriptions_path, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+            <% if current_user.is_admin %>
+              <%= link_to "Administracja", installations_path, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+            <% end %>
+          <%= link_to "Wyloguj", destroy_user_session_path, method: :delete, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+        <% else %>
+        <%= link_to "Zarejestruj", new_user_registration_path, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+        <%= link_to "Zaloguj", new_user_session_path, class: " w3-bar-item w3-button w3-padding-large w3-hover-white "%>
+
+        <% end %>
+        <!-- <a href="#" class="w3-bar-item w3-button w3-padding-large">Czym oddychamy</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding-large">Co możemy zrobić?</a> -->
+        <!-- <a href="#" class="w3-bar-item w3-button w3-padding-large">Kontakt</a> -->
+        <a href="https://www.facebook.com/JaworznickiAlarmSmogowy/" class="w3-bar-item w3-button w3-padding-large">
+          <i class="fa fa-facebook-official w3-hover-opacity"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <% if current_page?('/') %>
+
+    <header id="header" class="w3-container w3-red w3-center w3-hide-small" style="padding:128px 16px">
+      <!-- <h2 class="w3-margin w3-jumbo">Jaworznicki Alarm Smogowy</h2> -->
+
+      <div id="logo">
+        <%= image_tag "logo.png"%>
+
+      </div>
+      <div class="w3-container w3-center">
+
+
+        <div id="counter"></div>
+        <br>
+        <%= link_to "O co chodzi?", deadline_path, class: ""%>
+      </div>
+
+      <div id="logo2">
+        <%= image_tag "pas.jpg"%>
+
+      </div>
+
+      <!--
+      <div class="w3-row">
+        <div class="w3-third">&nbsp;</div>
+        <div class="w3-third">
+          <div class="w3-card-4 w3-light-grey w3-hover-shadow">
+
+            <h1 id="counter" style="font-family: 'Lato';"></h1>
+          </div>
+        </div>
+
+        <div class="w3-third">&nbsp;</div>
+      </div> -->
+
+
+      <!-- <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started</button> -->
+    </header>
+    <% end %>
+
+    <div class="wrapper">
+    <%= yield %>
+    </div>
+
+
+
+    <!-- Footer -->
+    <!-- <footer class="w3-container w3-black w3-padding-16 w3-center w3-opacity">
+      <div class="w3-container w3-black w3-center w3-opacity w3-padding-16">
+        <p class="w3-right"> <a href="mailto:kontakt@jaworznobezsmogu.pl">Jaworznicki Alarm Smogowy</a> </p>
+      </div>
+
+    </footer> -->
+
+    <footer class="w3-container w3-grey w3-padding-16 w3-center">
+
+      <!-- <div class="w3-left"><%= image_tag "pas.jpg"%></div> -->
+      <div class="w3-right w3w3-padding-16"> <a href="mailto:kontakt@jaworznobezsmogu.pl">Jaworznicki Alarm Smogowy</a> </div>
+
+  <!-- <div class="w3-container w3-grey w3-center w3-padding-16">
+  </div> -->
+
+    </footer>
+
+    <script>
+      // Used to toggle the menu on small screens when clicking on the menu button
+      function myFunction() {
+        var x = document.getElementById("navDemo");
+        if (x.className.indexOf("w3-show") == -1) {
+          x.className += " w3-show";
+        } else {
+          x.className = x.className.replace(" w3-show", "");
+        }
+      }
+    </script>
+
+  </body>
+</html>

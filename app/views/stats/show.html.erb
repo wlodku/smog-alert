@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Pm10:</strong>
+  <%= @stat.pm10 %>
+</p>
+
+<p>
+  <strong>Pm25:</strong>
+  <%= @stat.pm25 %>
+</p>
+
+<p>
+  <strong>Day:</strong>
+  <%= @stat.day %>
+</p>
+
+<p>
+  <strong>Station:</strong>
+  <%= @stat.station_id %>
+</p>
+
+<%= link_to 'Edit', edit_stat_path(@stat) %> |
+<%= link_to 'Back', stats_path %>

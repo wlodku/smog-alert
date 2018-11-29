@@ -1,0 +1,40 @@
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+<p id="notice"><%= notice %></p>
+
+<h1>Użytkownicy</h1>
+
+<table class="w3-table w3-striped w3-bordered">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Mail</th>
+      <th>Ilość subskrypcji</th>
+      <th>Próg (1 - bardzo źle)</th>
+      <th>Delay (h)</th>
+      <th>On/Off</th>
+      <th>Ostatni mail wysłano o:</th>
+
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |u| %>
+      <tr>
+        <td><%= u.id %></td>
+        <td><%= u.email %></td>
+        <td><%= u.subscriptions.count %></td>
+        <td><%= u.critical %></td>
+        <td><%= u.delay %></td>
+        <td><%= u.is_active %></td>
+        <td><%= u.email_sent_at %></td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+</div>
+</div>

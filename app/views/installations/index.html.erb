@@ -1,0 +1,59 @@
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+<p id="notice"><%= notice %></p>
+
+<h1>Stacje Airly</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nazwa</th>
+      <th>Id na mapie Airly</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @installations.each do |installation| %>
+      <tr>
+        <td><%= installation.name %></td>
+        <td><%= installation.sensor_id %></td>
+        <td><%= link_to 'Edytuj', edit_installation_path(installation) %></td>
+        <td><%= link_to 'Usuń', installation, method: :delete, data: { confirm: 'Jesteś pewny?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Dodaj nowy czujnik', new_installation_path, class: 'w3-btn w3-blue' %>
+<br>
+
+<h1>Ustawienia administracyjne</h1>
+
+<%= form_for :options, url: '/options' do |f| %>
+  <%= f.label "Adres email z którego będą wysyłane powiadomienia" %> <br>
+  <%= f.text_field :smtp_login, value: Setting.smtp_login, class: 'w3-input w3-border' %>
+  <%= f.label "Hasło poczty" %> <br>
+  <%= f.password_field :smtp_password, value: Setting.smtp_password, class: 'w3-input w3-border'  %>
+  <%= f.label "Serwer poczty" %> <br>
+  <%= f.text_field :smtp_host, value: Setting.smtp_host, class: 'w3-input w3-border'  %>
+  <br><br>
+  API Key1 <%= f.text_field :api_key1, value: Setting.api_key1, class: 'w3-input w3-border'  %><br>
+  API Key2 <%= f.text_field :api_key2, value: Setting.api_key2, class: 'w3-input w3-border'  %><br>
+  API Key3 <%= f.text_field :api_key3, value: Setting.api_key3, class: 'w3-input w3-border'  %><br>
+  API Key4 <%= f.text_field :api_key4, value: Setting.api_key4, class: 'w3-input w3-border'  %><br>
+  <br>
+  Wyłącz/włącz wysyłanie powiadomień do użytkowników
+  <br>
+  <label class="switch">
+  <%= f.check_box :notif_on, { checked: true ? Setting.notif_on == "1" : false } %>
+  <span class="slider round"></span>
+  </label>
+  <br>
+  <br>
+  <%= f.submit "Zatwierdź zmiany", class: 'w3-btn w3-green' %>
+<% end %>
+
+</div>

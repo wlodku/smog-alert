@@ -1,0 +1,34 @@
+<div class="w3-row-padding w3-padding-64 w3-container">
+	<div class="w3-content">
+
+<h1>System ostrzegania - jak to działa?</h1>
+<h3>1. <%= link_to "Zarejestruj się", new_user_registration_path %> i <%= link_to "zaloguj", new_user_session_path %></h3>
+<p>Nie mamy dostępu do Twojego hasła - przechowujemy go w postaci zaszyfrowanej. Twój adres email wykorzystamy tylko do wysyłania powiadomień o zanieczyszczeniu powietrza.</p>
+
+<h3>2. Wybierz swoje preferencje</h3>
+<p>Po zalogowaniu będziesz mógł ustawić kilka rzeczy:</p>
+<ul>
+	<li>Wybierz obserwowane stacje</li>
+	<%= image_tag 'select.gif' %>
+	<br><br>
+	<li>Wybierz wartość progową</li>
+	<p>Otrzymasz maila w chwili, gdy powietrze zmierzone przez co najmniej jeden z obserwowanych przez Ciebie czujników osiągnie wartość progową lub gorszą. Na przykład: jeśli obserwujesz stację w Byczynie, a Twój próg ostrzegania ustawiłeś na "Zły", dostaniesz od nas maila w chwili, gdy powietrze zmierzone przez urządzenie w Byczynie będzie "Złe" lub "Bardzo złe" (<a href="http://spjp.katowice.wios.gov.pl/wskaznik.html">według wytycznych WIOŚ</a>).</p>
+	<%= image_tag 'critical.gif' %>
+	<br><br>
+	<li>Ustaw minimalny odstęp pomiędzy powiadomieniami</li>
+	<p>Jeśli smog będzie utrzymywać się przez dłuższy czas, powiadomienia otrzymywałbyś co 10 minut - nie chcemy zasypać Cię lawiną wiadomości. Ustaw minimalną przerwę pomiędzy ostrzeżeniami - domyslnie 8 godzin.</p>
+	<%= image_tag 'delay.gif' %>
+	<br><br>
+	<li>Włącz lub wyłącz przesyłanie powiadomień</li>
+	<%= image_tag 'turn.gif' %>
+	<br><br>
+	<li>Zatwierdź zmiany po każdej modyfikacji formularza</li>
+	<%= image_tag 'confirm.gif' %>
+	<h3>3. Otrzymasz maila niezwłocznie po zarejestrowaniu niepokojących pomiarów</h3>
+	<%= image_tag 'mail.png' %>
+	<br><br>
+	<p>Pytania? Napisz do nas na <a href="mailto:kontakt@jaworznobezsmogu.pl">maila</a> lub na <a href="https://www.facebook.com/JaworznickiAlarmSmogowy/">Facebooku</a>.</p>
+
+</ul>
+</div>
+</div>

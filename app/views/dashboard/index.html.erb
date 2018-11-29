@@ -1,0 +1,111 @@
+
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Jaworzno Kopernika</h1>
+      <h6 class="w3-padding-32">Pomiar dokonynywany przez prywatne urządzenie firmy LookO2 zlokalizowane w Śródmieściu przy ulicy Kopernika. <a href="https://looko2.com/tracker2.php?search=6001944BCDF1">Więcej w serwisie LookO2.</a></h6>
+
+    </div>
+    <div class="w3-third">
+      <iframe width="350" height="250" frameborder="0" style="border:0"
+src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJUdbRSY3CFkcRzdaOCXQ1m84&key=AIzaSyBmP_Q8uzJrj_P10laNIEiudP4CYl1PwBc" allowfullscreen></iframe>
+
+    </div>
+    <h3>Średnie z ostatniej doby</h3>
+    <br>
+    <table class="w3-table w3-bordered w3-card-4" style="width:50%">
+      <tr>
+        <td>PM10</td>
+        <td><b><%= (Measurement.average(:pm10)*100/50).round %>% normy WHO</b> (<%= Measurement.average(:pm10).round %> µg/m3)</td>
+      </tr>
+      <tr>
+        <td>PM2.5</td>
+        <td><b><%= (Measurement.average(:pm25)*100/25).round %>% normy WHO</b> (<%= Measurement.average(:pm25).round %> µg/m3)</td>
+      </tr>
+    </table>
+
+
+    <div class="w3-padding-16">
+      &nbsp;
+
+
+    </div>
+
+      <h3>Ostatni pomiar z <%= Time.strptime("#{@jk_values["Epoch"].to_i+3600}",'%s').strftime("%d.%m.%y, %H:%M") %></h3> <br>
+      <table class="w3-table-all w3-card-4">
+          <tr class="">
+            <th>PM10</th>
+            <th>PM2.5</th>
+            <th>PM1</th>
+          </tr>
+          <tr>
+            <td><%= @jk_values["PM10"] %> µg/m3</td>
+            <td><%= @jk_values["PM25"] %> µg/m3</td>
+            <td><%= @jk_values["PM1"] %> µg/m3</td>
+          </tr>
+          <tr>
+            <td colspan="3" id="ijp" class="w3-center">Indeks jakości powietrza: <span id="ijp-value"> <%= @jk_values["IJP"] %> </span></td>
+
+          </tr>
+          <tr>
+            <td colspan="3"><%= @jk_values["IJPDescription"] %></td>
+
+          </tr>
+          <tr>
+
+        </table>
+
+    <div class="w3-padding-16">
+      &nbsp;
+    </div>
+    <h3>Średnie godzinowe pomiarów ostatnich 24 godzin</h3>
+    <canvas id="kopernika_live" width="400" height="200"></canvas>
+    <script>
+    // $(document).on('turbolinks:load', function() {
+
+      live_chart("kopernika_live", <%= @pom10.keys.map{|v| v } %>, <%= @pom10.values.map{|v| v.round} %>, <%= @pom25.values.map{|v| v.round} %>);
+
+    // });
+
+    </script>
+
+
+
+  </div>
+</div>
+
+<!-- Second Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+  <div class="w3-content">
+
+      <h1>Jaworzno Podłęże</h1>
+      <h5 class="w3-padding-32">Pomiar dokonynywany przez prywatne urządzenie firmy LookO2 zlokalizowane na Podłężu przy ulicy Piłsudskiego.</h5>
+
+      <h4 class="w3-center">/... w budowie .../ </h4>
+  </div>
+
+
+</div>
+
+<!-- Third Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+
+      <h1>Miejska Biblioteka Publiczna</h1>
+      <!-- <h2>Airvisual</h2> -->
+      <h6 class="w3-padding-32">Pomiar dokonynywany przez Miejską Bibliotekę Publiczną w Jaworznie za pomocą urządzenia firmy Airvisual. Więcej <a href="http://www.biblioteka.jaw.pl/strona/index.php/ogloszenia-kontrast/2069-1707-biblioteka-dla-powietrza-wyniki"> na stronie MBP </a>oraz <a href="https://airvisual.com/poland/slaskie/jaworzno/miejska-biblioteka-publiczna-w-jaworznie"> w serwisie Airvisual.</a></h6>
+
+      <p class="w3-text-grey">Wartość po prawej przedstawia chwilowy pomiar pyłu PM2.5. Według WHO średnie dobowe stężenie PM2.5 nie powinno przekraczać 25 µg/m3</p>
+      <p class="w3-text-grey">Wartość po lewej przedstawia obliczony współczynnik jakości powietrza AQI oraz interpretację.</p>
+      <!-- <a href="">Jak interpretować AQI i ikonę?</a> -->
+    </div>
+
+    <div class="w3-third w3-center w3-padding-32">
+      <div name="airvisual_widget" key="fkWXuuwCLquP62eCh"></div>
+      <script type="text/javascript" src="https://www.airvisual.com/scripts/widget_v2.0.js"></script>
+
+    </div>
+  </div>
+</div>

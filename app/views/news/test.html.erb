@@ -1,0 +1,111 @@
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+
+  <h1 class="w3-center">Najbardziej zanieczyszczone miasta Unii Europejskiej</h1>
+  <div class="w3-center imago">
+  <%= image_tag "bieda.jpg" %>
+  </div>
+  
+<h3 class="w3-center">Średnioroczne stężenia pyłu PM2.5 [ug/m3]</h3>
+<canvas id="pollution" width="400" height="350"></canvas>
+<div class="w3-right-align">Na podstawie raportu WHO z roku 2016</div>
+<div class="w3-right-align">Źródło danych:  <a href="http://www.who.int/phe/health_topics/outdoorair/databases/cities/en/">http://www.who.int/phe/health_topics/outdoorair/databases/cities/en/</a> </div>
+<br>
+<h4 class="w3-center">www.jaworznobezsmogu.pl</h4>
+
+
+<h1>1. Czujniki Airly</h1>
+Źródło danych: API <a href="https://developer.airly.eu/docs">Airly</a>
+
+
+<br>
+*Interpretacja na podstawie <a href="http://spjp.katowice.wios.gov.pl/wskaznik.html">wskaźnika obliczonego wg wytycznych WIOŚ</a><br>
+Uwaga: norma procentowa WHO dotyczy wartości dobowej, powyższe odczyty są wartościami chwilowymi.
+<br>
+<div class="w3-hide-small">
+    <h2>Pył zawieszony PM10 - średnie godzinowe w ostatnich 24h</h2>
+    <h5>Kliknij w legendę aby pokazać/ukryć serię danych</h5>
+    <canvas id="live" width="410" height="220"></canvas>
+  </div>
+  </div>
+</div>
+
+<div>
+<h1>Stacje</h1>
+
+<% Station.all.each do |s|  %>
+
+  <%= s.name %> -  sensor id: <%= s.sensor_id %>, id:  <%= s.id %><br>
+<% end %>
+
+</div>
+
+
+<script>
+$(document).on('turbolinks:load', function() {
+  Chart.defaults.global.legend.display = false;
+  var ctx = document.getElementById("pollution").getContext('2d');
+  var myBarChart = new Chart(ctx, {
+      type: 'horizontalBar',
+      data: {
+          labels:["Żywiec, Polska", "Pszczyna, Polska", "Dimitrovgrad, Bułgaria", "Rybnik, Polska", "Wodzisław Śląski, Polska", "Sucha Beskidzka, Polska", "Opoczno, Polska", "Godów, Polska", "Dolny Voden, Bugaria", "Skawina, Polska", "Montana, Bułgaria", "Kraków, Polska", "Varna, Bułgaria", "Tuchów, Polska", "Nowy Sącz, Polska", "Niepołomice, Polska", "Knurów, Polska", "Zabrze, Polska", "Wadowice, Polska", "Nowa Ruda, Polska", "Katowice, Polska", "Gliwice, Polska", "Soresina, Włochy", "Proszowice, Polska", "Plovdiv, Bułgaria", "Brzeziny, Polska", "Bielsko Biała, Polska", "Zduńska Wola, Polska", "Sosnowiec, Polska", "Settimo Torinese, Włochy", "Ruse, Bułgaria", "Rawa Mazowiecka, Polska", "Pazarjik, Bułgaria", "Orlova, Czechy", "Kędzieżyn Koźle, Polska", "Havirov, Czechy", "Haskovo, Bułgaria", "Cesky Tesin, Czechy", "Zakopane, Polska", "Tychy, Polska", "Tomaszów Mazowiecki, Polska", "Ostrava, Czechy", "Nakło, Polska", "Karvina, Czechy", "Kalisz, Polska", "Jarosław, Polska", "Dąbrowa Górnicza, Polska", "Żory, Polska", "Pernik, Bernik", "Brescia, Włochy"],
+          datasets: [
+          {
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              data: [43, 43, 42, 40, 39, 39, 39, 38, 38, 37, 37, 37, 36, 36, 36, 36, 36, 35, 35, 35, 35, 35, 34, 34, 34, 34, 34, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 32, 32, 32, 32, 32, 32, 32, 32, 32, 31, 31, 31]
+          }
+        ]
+      },
+      options: {
+          scales: {
+              xAxes: [
+              {
+                position: 'top',
+                ticks: {
+                    beginAtZero:true
+                },
+
+              }
+            ],
+            yAxes: [
+            {
+              ticks: {
+                  fontSize: 14
+              },
+
+            }
+          ],
+
+          }
+      }
+  });
+});
+
+live2(
+"live", [18, 19, 20, 21, 22, 23, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+
+"Sulinskiego", [60, 60, 67, 68, 80, 100, 90, 80, 70, 78, 65, 30, 20, 10, 40, 35],
+"Jeleń Kościół", [90, 120, 137, 168, 190, 180, 98, 89, 85, 87, 65, 60, 40, 40, 50, 65],
+
+
+// "Jeziorki", <%= @jeziorki10.values.map{|v| v.round} %>,
+// "Rynek", <%= @rynek10.values.map{|v| v.round} %>,
+// "Galena", <%= @galena10.values.map{|v| v.round} %>,
+// "Podłęże", <%= @podleze10.values.map{|v| v.round} %>,
+// "Podwale", <%= @podwale10.values.map{|v| v.round} %>,
+// "OST Basen", <%= @basen10.values.map{|v| v.round} %>,
+// "Długoszyn", <%= @dlugoszyn10.values.map{|v| v.round} %>,
+// "Szczakowa", <%= @szczakowa10.values.map{|v| v.round} %>,
+// "Pieczyska", <%= @pieczyska10.values.map{|v| v.round} %>,
+// "Ciężkowice", <%= @ciezkowice10.values.map{|v| v.round} %>
+
+)
+
+</script>
+
+
+</div>
+
+
+
+</div>
