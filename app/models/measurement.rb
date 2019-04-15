@@ -1,6 +1,6 @@
 class Measurement < ApplicationRecord
   before_save :add_qi
-  belongs_to :station
+  # belongs_to :station
   belongs_to :installation
 
   scope :from_station_id, ->(num) { where(station_id: num) }

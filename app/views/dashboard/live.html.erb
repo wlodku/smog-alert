@@ -4,24 +4,24 @@
     <h1>1. Czujniki Airly</h1>
     Źródło danych: API <a href="https://developer.airly.eu/docs">Airly</a>
     <br><br>
-    <h3>Średnie z ostatniej doby dla Jaworzna (uśrednienie z 20 stacji)</h3>
+    <h3>Średnie z ostatniej doby dla Jaworzna (uśrednienie z 21 stacji)</h3>
 
     <br>
     <table class="w3-table w3-bordered w3-card-4" style="width:50%">
       <tr>
         <td>PM10</td>
-        <td><b><%= (Measurement.airly.where(measured_at: (Time.now - 24.hours)..Time.now).average(:pm10)*100/50).round %>% normy WHO</b> (<%= Measurement.airly.where(measured_at: (Time.now - 24.hours)..Time.now).average(:pm10).round %> µg/m3)</td>
+        <td><b><%= @daily_pm10_avg*100/50%>% normy WHO</b> (<%= @daily_pm10_avg %> µg/m3)</td>
       </tr>
       <tr>
         <td>PM2.5</td>
-        <td><b><%= (Measurement.airly.where(measured_at: (Time.now - 24.hours)..Time.now).average(:pm25)*100/25).round %>% normy WHO</b> (<%= Measurement.airly.where(measured_at: (Time.now - 24.hours)..Time.now).average(:pm25).round %> µg/m3)</td>
+        <td><b><%= @daily_pm25_avg*100/25%>% normy WHO</b> (<%= @daily_pm25_avg %> µg/m3)</td>
       </tr>
     </table>
 
 <br>
 <br>
 <br>
-<h3>Pył zawieszony PM10 i PM2.5 w Jaworznie w ostatnich 24h (uśrednienie z 20 stacji)</h3>
+<h3>Pył zawieszony PM10 i PM2.5 w Jaworznie w ostatnich 24h (uśrednienie z 21 stacji)</h3>
 
 <canvas id="area" width="400" height="200"></canvas>
 
@@ -43,7 +43,7 @@
         <td><%= m.installation.name if m.installation %></td>
         <td><%= (m.pm10*100)/50 %>%</td>
         <td><%= (m.pm25*100)/25 %>%</td>
-        <td class="w3-hide-small"><%= m.measured_at.in_time_zone("Warsaw").strftime("%H:%M")  %></td>
+        <td class="w3-hide-small"><%= m.created_at.in_time_zone("Warsaw").strftime("%H:%M")  %></td>
         <%= getColor(m.pm10, m.pm25) %>
       </tr>
 
@@ -60,115 +60,7 @@
 <div class="w3-hide-small">
     <h2>Pył zawieszony PM10 - średnie godzinowe w ostatnich 24h</h2>
     <h5>Kliknij w legendę aby pokazać/ukryć serię danych</h5>
-    <canvas id="live" width="410" height="220"></canvas>
+    <canvas id="live" width="410" height="260"></canvas>
   </div>
-  </div>
-</div>
-
-<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container w3-hide-small">
-  <div class="w3-content">
-    <div class="w3-twothird">
-
-      <h1>2. Czujnik Miejskiej Biblioteki Publicznej</h1>
-      <!-- <h2>Airvisual</h2> -->
-      <h6 class="w3-padding-32">Pomiar dokonynywany przez Miejską Bibliotekę Publiczną w Jaworznie za pomocą urządzenia firmy Airvisual. Więcej <a href="http://www.biblioteka.jaw.pl/strona/index.php/ogloszenia-kontrast/2069-1707-biblioteka-dla-powietrza-wyniki"> na stronie MBP </a>oraz <a href="https://airvisual.com/poland/slaskie/jaworzno/miejska-biblioteka-publiczna-w-jaworznie"> w serwisie Airvisual.</a></h6>
-
-      <p class="w3-text-grey">Wartość po prawej przedstawia chwilowy pomiar pyłu PM2.5. Według WHO średnie dobowe stężenie PM2.5 nie powinno przekraczać 25 µg/m3</p>
-      <p class="w3-text-grey">Wartość po lewej przedstawia obliczony współczynnik jakości powietrza AQI oraz interpretację.</p>
-      <!-- <a href="">Jak interpretować AQI i ikonę?</a> -->
-    </div>
-
-    <div class="w3-third w3-center w3-padding-32">
-      <div name="airvisual_widget" key="fkWXuuwCLquP62eCh"></div>
-      <script type="text/javascript" src="https://www.airvisual.com/scripts/widget_v2.0.js"></script>
-
-    </div>
-  </div>
-</div>
-
-
-
-
-<div class="w3-row-padding w3-padding-64 w3-container w3-hide-small">
-  <div class="w3-content">
-    <div class="w3-twothird">
-      <h1>3. Czujnik LookO2</h1>
-      <h6 class="w3-padding-32">Pomiar dokonynywany przez prywatne urządzenie firmy LookO2 zlokalizowane w Śródmieściu przy ulicy Kopernika. <a href="https://looko2.com/tracker2.php?search=6001944BCDF1">Więcej w serwisie LookO2.</a></h6>
-
-    </div>
-    <div class="w3-third">
-      <iframe width="350" height="250" frameborder="0" style="border:0"
-src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJUdbRSY3CFkcRzdaOCXQ1m84&key=AIzaSyBmP_Q8uzJrj_P10laNIEiudP4CYl1PwBc" allowfullscreen></iframe>
-
-    </div>
-    <h3>Średnie z ostatniej doby</h3>
-    <br>
-    <table class="w3-table w3-bordered w3-card-4" style="width:50%">
-      <tr>
-        <td>PM10</td>
-        <td><b><%= (Measurement.from_station_id(1).where(measured_at: (Time.now - 24.hours)..Time.now).average(:pm10)*100/50).round %>% normy WHO</b> (<%= Measurement.from_station_id(1).where(measured_at: (Time.now - 24.hours)..Time.now).average(:pm10).round %> µg/m3)</td>
-      </tr>
-      <tr>
-        <td>PM2.5</td>
-        <td><b><%= (Measurement.from_station_id(1).where(measured_at: (Time.now - 24.hours)..Time.now).average(:pm25)*100/25).round %>% normy WHO</b> (<%= Measurement.from_station_id(1).where(measured_at: (Time.now - 24.hours)..Time.now).average(:pm25).round %> µg/m3)</td>
-      </tr>
-    </table>
-
-
-    <div class="w3-padding-16">
-      &nbsp;
-
-
-    </div>
-
-      <% unless @kop.last.nil? %>
-      <h3>Ostatni pomiar z <%= @kop.last.measured_at.in_time_zone("Warsaw").strftime("%d.%m.%y, %H:%M") %></h3> <br>
-      <table class="w3-table-all w3-card-4">
-          <tr class="">
-            <th>PM10</th>
-            <th>PM2.5</th>
-            <th>PM1</th>
-          </tr>
-          <tr>
-            <td><%= @kop.last.pm10 %> µg/m3</td>
-            <td><%= @kop.last.pm25 %> µg/m3</td>
-            <td><%= @kop.last.pm1 %> µg/m3</td>
-          </tr>
-          <tr>
-            <%= getColor2(@kop.last.pm10) %>
-          </tr>
-
-
-
-        </table>
-    <% end %>
-    <div class="w3-padding-16">
-      &nbsp;
-    </div>
-    <h3>Średnie godzinowe pomiarów ostatnich 24 godzin</h3>
-    <canvas id="kopernika_live" width="400" height="200"></canvas>
-    <script>
-
-
-    area(
-      "area", <%= @area10.keys.map{|v| v } %>,
-      <%= @area10.values.map{|v| v.round} %>,
-      <%= @area25.values.map{|v| v.round} %>
-    )
-    const measurements = <%= raw @multichart_live %>;
-    live(measurements, "live");
-
-    looko2(
-      "kopernika_live", <%= @kop10.keys.map{|v| v } %>,
-      <%= @kop10.values.map{|v| v.round} %>,
-      <%= @kop25.values.map{|v| v.round} %>
-    )
-
-    // });
-
-    </script>
-
-
-
   </div>
 </div>

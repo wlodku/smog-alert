@@ -24,39 +24,41 @@ class DashboardController < ApplicationController
 
 
   def live
-      #live table
-      live = []
-      Measurement.airly.last(1000).group_by{ |s| s.installation_id }.each do |s, m|
-        live.push(m.last) if m.last.created_at > 3.hours.ago
-      end
-      @live = live.sort_by{|m| -m[:pm10]}
-      @updated = live.sort_by{|m| m[:created_at]}.last.created_at.in_time_zone("Warsaw").strftime("%H:%M")
-      @updated ||= '-'
+    #live table
+    live = []
+    Measurement.airly.last(1000).group_by{ |s| s.installation_id }.each do |s, m|
+      live.push(m.last) if m.last.created_at > 3.hours.ago
+    end
+    @live = live.sort_by{|m| -m[:pm10]}
+    @updated = live.sort_by{|m| m[:created_at]}.last.created_at.in_time_zone("Warsaw").strftime("%H:%M") unless live.blank?
+    @updated ||= '-'
 
-      #main chart
-      @area10, @area25 = get24AverageByHoursForArea
+    #daily avg
+    @daily_pm10_avg = Measurement.airly.where(measured_at: (Time.now - 24.hours)..Time.now).average(:pm10).round unless Measurement.airly.where(measured_at: (Time.now - 24.hours)..Time.now).blank?
+    @daily_pm10_avg ||= 0
+    @daily_pm25_avg = Measurement.airly.where(measured_at: (Time.now - 24.hours)..Time.now).average(:pm25).round unless Measurement.airly.where(measured_at: (Time.now - 24.hours)..Time.now).blank?
+    @daily_pm25_avg ||= 0
 
-      #multi chart
-      @multichart_live = []
+    #main chart
+    @area10, @area25 = get24AverageByHoursForArea
 
-      Installation.all.each do |i|
-        @multichart_live.push(i.name)
-        @multichart_live.push(get24AverageByHoursForInstallation(i.id).values.map { |v| v.round })
-      end
+    #multi chart
+    @multichart_live = []
 
-      @multichart_live.unshift(get24AverageByHoursForInstallation(Installation.first.id).keys.map{|v| v})
-      @multichart_live.unshift("live")
+    Installation.all.each do |i|
+      @multichart_live.push(i.name)
+      @multichart_live.push(get24AverageByHoursForInstallation(i.id).values.map { |v| v.round })
+    end
 
-      # Kopernika
-      @kop = Measurement.from_station_id(1).where(measured_at: (Time.now - 24.hours)..Time.now)
-      @kop10, @kop25 = get24AverageByHours(1)
+    @multichart_live.unshift(get24AverageByHoursForInstallation(Installation.first.id).keys.map{|v| v})
+    @multichart_live.unshift("live")
 
 
   end
 
   def how
   end
-  
+
   def contact
   end
 

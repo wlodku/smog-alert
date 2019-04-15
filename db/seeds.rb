@@ -97,4 +97,6 @@
 # Installation.create(name: 'Długoszyn', sensor_id: 2883)
 # Installation.create(name: 'Szczakowa', sensor_id: 886)
 # Installation.create(name: 'Pieczyska', sensor_id: 2735)
+
 # Installation.create(name: 'Ciężkowice', sensor_id: 754)
+# Measurement.create(pm10: 0, pm25: 0, installation_id: Installation.last.id)
