@@ -33,7 +33,7 @@ gem 'chart-js-rails'
 gem 'rest-client', '~> 2.0', '>= 2.0.2'
 gem 'groupdate', '~> 3.2'
 
-gem 'devise', '~> 4.4'
+gem "devise", ">= 4.6.0"
 
 gem 'rails-settings-cached', '~> 0.7.2'
 
@@ -69,3 +69,4 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem "actionview", ">= 5.0.7.2"
