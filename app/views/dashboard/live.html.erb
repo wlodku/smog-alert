@@ -1,10 +1,14 @@
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-hide-small">
-    <h1>1. Czujniki Airly</h1>
+      <div class="w3-right">
+      <%= image_tag "airly.svg"%>
+      </div>
+      <h1>Czujniki Airly <%= Setting.subtitle %></h1>
     Źródło danych: API <a href="https://developer.airly.eu/docs">Airly</a>
+
     <br><br>
-    <h3>Średnie z ostatniej doby dla Jaworzna (uśrednienie z 21 stacji)</h3>
+    <h3>Średnie z ostatniej doby dla obszaru (uśrednienie ze wszystkich stacji)</h3>
 
     <br>
     <table class="w3-table w3-bordered w3-card-4" style="width:50%">
@@ -21,7 +25,7 @@
 <br>
 <br>
 <br>
-<h3>Pył zawieszony PM10 i PM2.5 w Jaworznie w ostatnich 24h (uśrednienie z 21 stacji)</h3>
+<h3>Pył zawieszony PM10 i PM2.5 w ostatnich 24h (uśrednienie ze wszystkich stacji)</h3>
 
 <canvas id="area" width="400" height="200"></canvas>
 

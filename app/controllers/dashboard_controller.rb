@@ -49,9 +49,11 @@ class DashboardController < ApplicationController
       @multichart_live.push(i.name)
       @multichart_live.push(get24AverageByHoursForInstallation(i.id).values.map { |v| v.round })
     end
-
-    @multichart_live.unshift(get24AverageByHoursForInstallation(Installation.first.id).keys.map{|v| v})
-    @multichart_live.unshift("live")
+    
+    unless @multichart_live.empty?
+      @multichart_live.unshift(get24AverageByHoursForInstallation(Installation.first.id).keys.map{|v| v})
+      @multichart_live.unshift("live")
+    end
 
 
   end

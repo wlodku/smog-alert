@@ -100,3 +100,5 @@
 
 # Installation.create(name: 'Ciężkowice', sensor_id: 754)
 # Measurement.create(pm10: 0, pm25: 0, installation_id: Installation.last.id)
+Setting.title = "Tytuł aplikacji"
+Setting.subtitle = "w Naszym Mieście"
