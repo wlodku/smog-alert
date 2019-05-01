@@ -102,3 +102,6 @@
 # Measurement.create(pm10: 0, pm25: 0, installation_id: Installation.last.id)
 Setting.title = "Tytuł aplikacji"
 Setting.subtitle = "w Naszym Mieście"
+Setting.about = "Kilka słów o Was. Nie zapomnij dodać adresu kontaktowego."
+
+User.create(email: "admin@admin.pl", is_admin: true, password: "DoZmiany132", password_confirmation: "DoZmiany132")

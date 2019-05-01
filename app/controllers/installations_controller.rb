@@ -70,6 +70,9 @@ class InstallationsController < ApplicationController
 
   def options
     puts params
+    Setting.title = params[:options][:title]
+    Setting.subtitle = params[:options][:subtitle]
+    Setting.about = params[:options][:about]
     Setting.smtp_login = params[:options][:smtp_login]
     Setting.smtp_password = params[:options][:smtp_password]
     Setting.smtp_host = params[:options][:smtp_host]
